@@ -1,3 +1,5 @@
+import 'package:bus_tracking_app/Login/loginscreen.dart';
+import 'package:bus_tracking_app/MainScreen/Profile_User.dart';
 import 'package:bus_tracking_app/utils/LSContstants.dart';
 import 'package:flutter/material.dart';
 import 'package:nb_utils/nb_utils.dart';
@@ -21,6 +23,7 @@ class LSProfileFragment extends StatefulWidget {
 
 class LSProfileFragmentState extends State<LSProfileFragment> {
   bool isNotification = true;
+  var name ="";
 
   @override
   void initState() {
@@ -29,8 +32,26 @@ class LSProfileFragmentState extends State<LSProfileFragment> {
   }
 
   init() async {
+    
+    final prefs = await SharedPreferences.getInstance();
+    // prefs.clear();
+   name = prefs.getString("User Name")!;
+   print(name);
+   setState(() { });
+   
     // await 2.microseconds.delay;
     // setStatusBarColor(Colors.transparent);
+
+
+
+  }
+
+  Logout() async {
+     final prefs = await SharedPreferences.getInstance();
+    prefs.clear();
+  Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>BHLoginScreen()));
+
+
   }
 
   @override
@@ -69,7 +90,7 @@ class LSProfileFragmentState extends State<LSProfileFragment> {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text('Analyrs Johansson', style: boldTextStyle(size: 18, )),
+                        Text(name.toUpperCase(), style: boldTextStyle(size: 18, )),
                         RichText(
                           text: TextSpan(
                             children: [
@@ -99,6 +120,7 @@ class LSProfileFragmentState extends State<LSProfileFragment> {
                       padding: EdgeInsets.only(left: 16, right: 16, top: 12, bottom: 12),
                       decoration: boxDecorationWithShadow(borderRadius: BorderRadius.circular(8), backgroundColor: context.cardColor),
                       onTap: () {
+                        Navigator.push(context, MaterialPageRoute(builder: (context)=>User_Detail()));
                         //
                       }),
                   SettingItemWidget(
@@ -107,16 +129,21 @@ class LSProfileFragmentState extends State<LSProfileFragment> {
                       padding: EdgeInsets.only(left: 16, right: 16, top: 12, bottom: 12),
                       decoration: boxDecorationWithShadow(borderRadius: BorderRadius.circular(8), backgroundColor: context.cardColor),
                       onTap: () {
+                        Navigator.push(context, MaterialPageRoute(builder: (context)=>User_Detail()));
+
                         //
                       }),
-                  SettingItemWidget(
-                      title: 'Change Password',
-                      leading: Icon(LineIcons.key),
-                      padding: EdgeInsets.only(left: 16, right: 16, top: 12, bottom: 12),
-                      decoration: boxDecorationWithShadow(borderRadius: BorderRadius.circular(8), backgroundColor: context.cardColor),
-                      onTap: () {
-                        // LSChangePasswordScreen().launch(context);
-                      }),
+                  // SettingItemWidget(
+                  //     title: 'Logout',
+                  //     leading: Icon(LineIcons.key),
+                  //     padding: EdgeInsets.only(left: 16, right: 16, top: 12, bottom: 12),
+                  //     decoration: boxDecorationWithShadow(borderRadius: BorderRadius.circular(8), backgroundColor: context.cardColor),
+                  //     onTap: () {
+                  //       Logout();
+                        
+
+                  //       // LSChangePasswordScreen().launch(context);
+                  //     }),
                 ],
               ),
             ),
@@ -151,22 +178,22 @@ class LSProfileFragmentState extends State<LSProfileFragment> {
                       await setValue(isDarkModeOnPref, true);
                     }
                   }),
-                  SettingItemWidget(
-                      title: 'Report & Feedback',
-                      leading: Icon(LineIcons.info),
-                      padding: EdgeInsets.only(left: 16, right: 16, top: 12, bottom: 12),
-                      decoration: boxDecorationWithShadow(borderRadius: BorderRadius.circular(8), backgroundColor: context.cardColor),
-                      onTap: () {
-                        //
-                      }),
-                  SettingItemWidget(
-                      title: 'Refer & Earn',
-                      leading: Icon(LineIcons.map_pin),
-                      padding: EdgeInsets.only(left: 16, right: 16, top: 12, bottom: 12),
-                      decoration: boxDecorationWithShadow(borderRadius: BorderRadius.circular(8), backgroundColor: context.cardColor),
-                      onTap: () {
-                        // LSReferScreen().launch(context);
-                      }),
+                  // SettingItemWidget(
+                  //     title: 'Report & Feedback',
+                  //     leading: Icon(LineIcons.info),
+                  //     padding: EdgeInsets.only(left: 16, right: 16, top: 12, bottom: 12),
+                  //     decoration: boxDecorationWithShadow(borderRadius: BorderRadius.circular(8), backgroundColor: context.cardColor),
+                  //     onTap: () {
+                  //       //
+                  //     }),
+                  // SettingItemWidget(
+                  //     title: 'Refer & Earn',
+                  //     leading: Icon(LineIcons.map_pin),
+                  //     padding: EdgeInsets.only(left: 16, right: 16, top: 12, bottom: 12),
+                  //     decoration: boxDecorationWithShadow(borderRadius: BorderRadius.circular(8), backgroundColor: context.cardColor),
+                  //     onTap: () {
+                  //       // LSReferScreen().launch(context);
+                  //     }),
                   SettingItemWidget(
                       title: 'App Notification',
                       leading: Icon(LineIcons.key),
@@ -184,20 +211,21 @@ class LSProfileFragmentState extends State<LSProfileFragment> {
                       onTap: () {
                         //
                       }),
-                  SettingItemWidget(
-                      title: 'Settings',
-                      leading: Icon(Icons.settings),
-                      padding: EdgeInsets.only(left: 16, right: 16, top: 12, bottom: 12),
-                      decoration: boxDecorationWithShadow(borderRadius: BorderRadius.circular(8), backgroundColor: context.cardColor),
-                      onTap: () {
-                        //
-                      }),
+                  // SettingItemWidget(
+                  //     title: 'Settings',
+                  //     leading: Icon(Icons.settings),
+                  //     padding: EdgeInsets.only(left: 16, right: 16, top: 12, bottom: 12),
+                  //     decoration: boxDecorationWithShadow(borderRadius: BorderRadius.circular(8), backgroundColor: context.cardColor),
+                  //     onTap: () {
+                  //       //
+                  //     }),
                        SettingItemWidget(
                       title: 'Log out',
                       leading: Icon(Icons.logout),
                       padding: EdgeInsets.only(left: 16, right: 16, top: 12, bottom: 12),
                       decoration: boxDecorationWithShadow(borderRadius: BorderRadius.circular(8), backgroundColor: context.cardColor),
                       onTap: () {
+                         Logout();
                         // Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>LSSignInScreen()));
                         //
                       }),

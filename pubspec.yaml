@@ -50,7 +50,15 @@ dependencies:
   cached_network_image: ^3.2.3
   fluid_bottom_nav_bar: ^1.4.0
   curved_navigation_bar: ^1.0.3
+  google_maps_flutter: ^2.1.1
   bulleted_list: ^0.0.1+0.1a
+  fluttertoast: ^8.1.2
+  geolocator: ^9.0.2
+  permission_handler: ^10.2.0
+  geocoding: ^2.0.5
+  flutter_datetime_picker: ^1.5.1
+  flutter_launcher_icons: ^0.11.0
+
 
 
 
@@ -58,8 +66,14 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
 
+flutter_icons:
+  image_path: "images/SAUTransport.png" 
+  android: true
+  ios: true
+
 dependency_overrides:
   firebase_core_platform_interface: 4.5.1
+
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is

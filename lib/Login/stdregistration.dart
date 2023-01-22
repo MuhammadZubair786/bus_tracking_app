@@ -1,8 +1,11 @@
-// ignore_for_file: sort_child_properties_last, prefer_const_constructors
+// ignore_for_file: sort_child_properties_last, prefer_const_constructors, prefer_is_empty
 
 import 'dart:convert';
 import 'dart:math';
 
+import 'package:bus_tracking_app/Login/loginScreen.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:nb_utils/nb_utils.dart';
@@ -25,11 +28,12 @@ class NewRegistrationScreenState extends State<BHRegistrationScreen> {
   TextEditingController passwordCont = TextEditingController();
   // ignore: non_constant_identifier_names
   TextEditingController ConfirmPas = TextEditingController();
+
   // ignore: non_constant_identifier_names
   TextEditingController ContactNo = TextEditingController();
   TextEditingController fullNameCont = TextEditingController();
-  TextEditingController dateOfBirthCont = TextEditingController();
-  TextEditingController addressCont = TextEditingController();
+  TextEditingController YearCont = TextEditingController();
+  TextEditingController BatchCont= TextEditingController();
   TextEditingController bussinessemailCont = TextEditingController();
   TextEditingController bussinespasswordCont = TextEditingController();
   TextEditingController bussinessConfirmPas = TextEditingController();
@@ -59,6 +63,11 @@ class NewRegistrationScreenState extends State<BHRegistrationScreen> {
   FocusNode bussinessConfirmFocusNode = FocusNode();
 
   String get BHBarCodeImg => "jskajdds";
+
+    final FirebaseAuth _auth = FirebaseAuth.instance;
+
+      DatabaseReference userRef =
+      FirebaseDatabase.instance.reference().child('Students');
 
   @override
   void dispose() {
@@ -93,7 +102,7 @@ class NewRegistrationScreenState extends State<BHRegistrationScreen> {
   //   if (!valid) {
   //     return;
   //   } else {
-  //     user = (await registerUser(emailCont.text, passwordCont.text)) as User;
+  //     user = (await registerUser(emai            lCont.text, passwordCont.text)) as User;
   //     // ignore: unnecessary_null_comparison
   //     if (user != null) {
   //       FirebaseFirestore.instance.collection('users').add({
@@ -109,6 +118,94 @@ class NewRegistrationScreenState extends State<BHRegistrationScreen> {
   //     }
   //   }
   // }
+
+
+  std_regsister() async {
+    var name = fullNameCont.text;
+    var email= emailCont.text;
+    var password=passwordCont.text;
+    var confirm= ConfirmPas.text;
+   
+    var year= YearCont.text;
+    var Contact=ContactNo.text;
+
+    if(name.length>0 && email.length>0 && password.length>0 && confirm.length>0  && year.length>0 && Contact.length>0){
+      if(password!=confirm){
+         Fluttertoast.showToast(
+            msg: "Password Not Match",
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1,
+            backgroundColor: Color.fromARGB(255, 30, 6, 121),
+            textColor: Colors.white,
+            fontSize: 16.0);
+
+      }
+      else{
+        try{
+          UserCredential userCredential = await _auth
+            .createUserWithEmailAndPassword(email: email, password: password);
+        String User_Uid = userCredential.user!.uid;
+        print(userCredential.user);
+
+        //  String User_Uid = userCredential.user!.uid;
+        print(userCredential.user);
+
+         var obj = {
+          "email": email,
+          "username": name,
+          "password": password,
+          "userUid": User_Uid,
+         
+          "Year": year,
+          "Phone_Number":Contact, 
+          "Role":"Student"
+          
+        };
+         await userRef.child(User_Uid).set(obj);
+
+          Fluttertoast.showToast(
+            msg: "Student Regsister",
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1,
+            backgroundColor: Color.fromARGB(255, 30, 6, 121),
+            textColor: Colors.white,
+            fontSize: 16.0);
+
+      // ignore: use_build_context_synchronously
+      Navigator.push(context, MaterialPageRoute(builder: (context)=>
+        BHLoginScreen()
+      ));
+
+        }
+        catch(e){
+          Fluttertoast.showToast(
+            msg: e.toString(),
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1,
+            backgroundColor: Color.fromARGB(255, 30, 6, 121),
+            textColor: Colors.white,
+            fontSize: 16.0);
+
+        }
+      }
+    }
+    else{
+       Fluttertoast.showToast(
+            msg: "Enter All Data",
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1,
+            backgroundColor: Color.fromARGB(255, 30, 6, 121),
+            textColor: Colors.white,
+            fontSize: 16.0);
+    }
+     
+  }
+
+  
 
   @override
   Widget build(BuildContext context) {
@@ -149,164 +246,217 @@ class NewRegistrationScreenState extends State<BHRegistrationScreen> {
               child: Column(
                 children: <Widget>[
                   SizedBox(height: 10,),
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Center(child: Text("Student Register ",style: TextStyle(   color: Color(0xff140967),fontSize: 25,fontWeight: FontWeight.bold),)),
-                      TextFormField(
-                        controller: fullNameCont,
-                        focusNode: fullNameFocusNode,
-                        keyboardType: TextInputType.text,
-                        textInputAction: TextInputAction.next,
-                        onFieldSubmitted: (value) {
-                          FocusScope.of(context).requestFocus(passwordFocusNode);
-                        },
-                        style: primaryTextStyle(),
-                        decoration: InputDecoration(
-                          enabledBorder: const UnderlineInputBorder(
-                              borderSide: BorderSide(color: BHAppDividerColor)),
-                          focusedBorder: const UnderlineInputBorder(
-                              borderSide: BorderSide(color: BHColorPrimary)),
-                          labelText: "Email",
-                          labelStyle: secondaryTextStyle(),
-                          suffixIcon: GestureDetector(
-                            onTap: () {
-                              setState(() {
-                                _showPassword = !_showPassword;
-                              });
-                            },
-                            child: const Icon(Icons.email,
-                                   color: Color(0xff140967), size: 20),
+                  SingleChildScrollView       (
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Center(child: Text("Student Register ",style: TextStyle(   color: Color(0xff140967),fontSize: 25,fontWeight: FontWeight.bold),)),
+                        SizedBox(height: 10,),
+                        TextFormField(
+                          controller:fullNameCont,
+                          // focusNode: fullNameFocusNode,
+                          keyboardType: TextInputType.text,
+                          textInputAction: TextInputAction.next,
+                          onFieldSubmitted: (value) {
+                            FocusScope.of(context).requestFocus(passwordFocusNode);
+                          },
+                          style: primaryTextStyle(),
+                          decoration: InputDecoration(
+                            enabledBorder: const UnderlineInputBorder(
+                                borderSide: BorderSide(color: BHAppDividerColor)),
+                            focusedBorder: const UnderlineInputBorder(
+                                borderSide: BorderSide(color: BHColorPrimary)),
+                            labelText: "User Name",
+                            labelStyle: secondaryTextStyle(),
+                            suffixIcon: GestureDetector(
+                              // onTap: () {
+                              //   setState(() {
+                              //     _showPassword = !_showPassword;
+                              //   });
+                              // },
+                              child: const Icon(Icons.person_add,
+                                     color: Color(0xff140967), size: 20),
+                            ),
                           ),
                         ),
-                      ),
-                      TextFormField(
-                        controller: passwordCont,
-                        focusNode: passwordFocusNode,
-                        obscureText: !_showPassword,
-                        keyboardType: TextInputType.text,
-                        style: primaryTextStyle(),
-                        decoration: InputDecoration(
-                          labelText: "Password",
-                          labelStyle: secondaryTextStyle(),
-                          suffixIcon: GestureDetector(
-                            onTap: () {
-                              setState(() {
-                                _showPassword = !_showPassword;
-                              });
-                            },
-                            child: Icon(
-                                _showPassword
-                                    ? Icons.visibility
-                                    : Icons.visibility_off,
-                                   color: Color(0xff140967),
-                                size: 20),
+                        TextFormField(
+                          controller:YearCont,
+                          // focusNode: emailFocusNode,
+                          keyboardType: TextInputType.emailAddress,
+                          textInputAction: TextInputAction.next,
+                          onFieldSubmitted: (value) {
+                            // FocusScope.of(context).requestFocus(dobFocusNode);
+                          },
+                          style: primaryTextStyle(),
+                          decoration: InputDecoration(
+                            enabledBorder: const UnderlineInputBorder(
+                                borderSide: BorderSide(color: BHAppDividerColor)),
+                            focusedBorder: const UnderlineInputBorder(
+                                borderSide: BorderSide(color: BHColorPrimary)),
+                            labelText: "Reg No : ",
+                            labelStyle: secondaryTextStyle(),
+                            suffixIcon: const Icon(Icons.app_registration_outlined,
+                                   color: Color(0xff140967), size: 18),
                           ),
-                          enabledBorder: const UnderlineInputBorder(
-                              borderSide: BorderSide(color: BHAppDividerColor)),
-                          focusedBorder: const UnderlineInputBorder(
-                              borderSide: BorderSide(color: BHColorPrimary)),
                         ),
-                      ),
-                      TextFormField(
-                        controller: ConfirmPas,
-                        focusNode: ConfirmPasNode,
-                        obscureText: !_showPassword,
-                        keyboardType: TextInputType.text,
-                        style: primaryTextStyle(),
-                        decoration: InputDecoration(
-                          labelText: "Conferma Password",
-                          labelStyle: secondaryTextStyle(),
-                          suffixIcon: GestureDetector(
-                            onTap: () {
-                              setState(() {
-                                _showPassword = !_showPassword;
-                              });
-                            },
-                            child: Icon(
-                                _showPassword
-                                    ? Icons.visibility
-                                    : Icons.visibility_off,
-                                   color: Color(0xff140967),
-                                size: 20),
+                       
+                        TextFormField(
+                          controller: ContactNo,
+                          // focusNode: addressFocusNode,
+                          textInputAction: TextInputAction.next,
+                          keyboardType: TextInputType.multiline,
+                          maxLines: 2,
+                          style: primaryTextStyle(),
+                          decoration: InputDecoration(
+                            enabledBorder: const UnderlineInputBorder(
+                                borderSide: BorderSide(color: BHAppDividerColor)),
+                            focusedBorder: const UnderlineInputBorder(
+                                borderSide: BorderSide(color: BHColorPrimary)),
+                            labelText: "Phone Number",
+                            suffixIcon: const Icon(Icons.phone,
+                                   color: Color(0xff140967), size: 18),
+                            labelStyle: secondaryTextStyle(),
                           ),
-                          enabledBorder: const UnderlineInputBorder(
-                              borderSide: BorderSide(color: BHAppDividerColor)),
-                          focusedBorder: const UnderlineInputBorder(
-                              borderSide: BorderSide(color: BHColorPrimary)),
                         ),
-                      ),
-                      TextFormField(
-                        controller: emailCont,
-                        focusNode: emailFocusNode,
-                        keyboardType: TextInputType.emailAddress,
-                        textInputAction: TextInputAction.next,
-                        onFieldSubmitted: (value) {
-                          FocusScope.of(context).requestFocus(dobFocusNode);
-                        },
-                        style: primaryTextStyle(),
-                        decoration: InputDecoration(
-                          enabledBorder: const UnderlineInputBorder(
-                              borderSide: BorderSide(color: BHAppDividerColor)),
-                          focusedBorder: const UnderlineInputBorder(
-                              borderSide: BorderSide(color: BHColorPrimary)),
-                          labelText: "State",
-                          labelStyle: secondaryTextStyle(),
-                          suffixIcon: const Icon(Icons.home,
-                                 color: Color(0xff140967), size: 18),
+                         TextFormField(
+                          controller: emailCont,
+                          // focusNode: fullNameFocusNode,
+                          keyboardType: TextInputType.text,
+                          textInputAction: TextInputAction.next,
+                          onFieldSubmitted: (value) {
+                            FocusScope.of(context).requestFocus(passwordFocusNode);
+                          },
+                          style: primaryTextStyle(),
+                          decoration: InputDecoration(
+                            enabledBorder: const UnderlineInputBorder(
+                                borderSide: BorderSide(color: BHAppDividerColor)),
+                            focusedBorder: const UnderlineInputBorder(
+                                borderSide: BorderSide(color: BHColorPrimary)),
+                            labelText: "Email",
+                            labelStyle: secondaryTextStyle(),
+                            suffixIcon: GestureDetector(
+                              onTap: () {
+                                setState(() {
+                                  _showPassword = !_showPassword;
+                                });
+                              },
+                              child: const Icon(Icons.email,
+                                     color: Color(0xff140967), size: 20),
+                            ),
+                          ),
                         ),
-                      ),
-                      TextFormField(
-                        controller: dateOfBirthCont,
-                        keyboardType: TextInputType.datetime,
-                        focusNode: dobFocusNode,
-                        textInputAction: TextInputAction.next,
-                        onFieldSubmitted: (value) {
-                          FocusScope.of(context).requestFocus(addressFocusNode);
-                        },
-                        style: primaryTextStyle(),
-                        decoration: InputDecoration(
-                          enabledBorder: const UnderlineInputBorder(
-                              borderSide: BorderSide(color: BHAppDividerColor)),
-                          focusedBorder: const UnderlineInputBorder(
-                              borderSide: BorderSide(color: BHColorPrimary)),
-                          labelText: "Country",
-                          suffixIcon: const Icon(Icons.home_max,
-                                 color: Color(0xff140967), size: 18),
-                          // suffixIcon: GestureDetector(
-                          //   onTap: () {
-                          //     showDatePicker(
-                          //         context: context,
-                          //         initialDate: DateTime.now(),
-                          //         firstDate: DateTime(2014, 8),
-                          //         lastDate: DateTime(2101));
-                          //   },
-                          //   child: const Icon(Icons.calendar_today,
-                          //       color: BHColorPrimary, size: 16),
-                          // ),
-                          labelStyle: secondaryTextStyle(),
+                        TextFormField(
+                          controller: passwordCont,
+                          focusNode: passwordFocusNode,
+                          obscureText: !_showPassword,
+                          keyboardType: TextInputType.text,
+                          style: primaryTextStyle(),
+                          decoration: InputDecoration(
+                            labelText: "Password",
+                            labelStyle: secondaryTextStyle(),
+                            suffixIcon: GestureDetector(
+                              onTap: () {
+                                setState(() {
+                                  _showPassword = !_showPassword;
+                                });
+                              },
+                              child: Icon(
+                                  _showPassword
+                                      ? Icons.visibility
+                                      : Icons.visibility_off,
+                                     color: Color(0xff140967),
+                                  size: 20),
+                            ),
+                            enabledBorder: const UnderlineInputBorder(
+                                borderSide: BorderSide(color: BHAppDividerColor)),
+                            focusedBorder: const UnderlineInputBorder(
+                                borderSide: BorderSide(color: BHColorPrimary)),
+                          ),
                         ),
-                      ),
-                      TextFormField(
-                        controller: addressCont,
-                        focusNode: addressFocusNode,
-                        textInputAction: TextInputAction.next,
-                        keyboardType: TextInputType.multiline,
-                        maxLines: 2,
-                        style: primaryTextStyle(),
-                        decoration: InputDecoration(
-                          enabledBorder: const UnderlineInputBorder(
-                              borderSide: BorderSide(color: BHAppDividerColor)),
-                          focusedBorder: const UnderlineInputBorder(
-                              borderSide: BorderSide(color: BHColorPrimary)),
-                          labelText: "Phone Number",
-                          suffixIcon: const Icon(Icons.phone,
-                                 color: Color(0xff140967), size: 18),
-                          labelStyle: secondaryTextStyle(),
+                        TextFormField(
+                          controller: ConfirmPas,
+                          focusNode: ConfirmPasNode,
+                          obscureText: !_showPassword,
+                          keyboardType: TextInputType.text,
+                          style: primaryTextStyle(),
+                          decoration: InputDecoration(
+                            labelText: "Confirm Password",
+                            labelStyle: secondaryTextStyle(),
+                            suffixIcon: GestureDetector(
+                              onTap: () {
+                                setState(() {
+                                  _showPassword = !_showPassword;
+                                });
+                              },
+                              child: Icon(
+                                  _showPassword
+                                      ? Icons.visibility
+                                      : Icons.visibility_off,
+                                     color: Color(0xff140967),
+                                  size: 20),
+                            ),
+                            enabledBorder: const UnderlineInputBorder(
+                                borderSide: BorderSide(color: BHAppDividerColor)),
+                            focusedBorder: const UnderlineInputBorder(
+                                borderSide: BorderSide(color: BHColorPrimary)),
+                          ),
                         ),
-                      ),
-                    ],
+                         
+                        // TextFormField(
+                        //   controller:BatchCont,
+                        //   // focusNode: emailFocusNode,
+                        //   keyboardType: TextInputType.emailAddress,
+                        //   textInputAction: TextInputAction.next,
+                        //   onFieldSubmitted: (value) {
+                        //     // FocusScope.of(context).requestFocus(dobFocusNode);
+                        //   },
+                        //   style: primaryTextStyle(),
+                        //   decoration: InputDecoration(
+                        //     enabledBorder: const UnderlineInputBorder(
+                        //         borderSide: BorderSide(color: BHAppDividerColor)),
+                        //     focusedBorder: const UnderlineInputBorder(
+                        //         borderSide: BorderSide(color: BHColorPrimary)),
+                        //     labelText: "Year",
+                        //     labelStyle: secondaryTextStyle(),
+                        //     suffixIcon: const Icon(Icons.timelapse_sharp,
+                        //            color: Color(0xff140967), size: 18),
+                        //   ),
+                        // ),
+                        // TextFormField(
+                        //   controller: dateOfBirthCont,
+                        //   keyboardType: TextInputType.datetime,
+                        //   focusNode: dobFocusNode,
+                        //   textInputAction: TextInputAction.next,
+                        //   onFieldSubmitted: (value) {
+                        //     FocusScope.of(context).requestFocus(addressFocusNode);
+                        //   },
+                        //   style: primaryTextStyle(),
+                        //   decoration: InputDecoration(
+                        //     enabledBorder: const UnderlineInputBorder(
+                        //         borderSide: BorderSide(color: BHAppDividerColor)),
+                        //     focusedBorder: const UnderlineInputBorder(
+                        //         borderSide: BorderSide(color: BHColorPrimary)),
+                        //     labelText: "Country",
+                        //     suffixIcon: const Icon(Icons.home_max,
+                        //            color: Color(0xff140967), size: 18),
+                        //     // suffixIcon: GestureDetector(
+                        //     //   onTap: () {
+                        //     //     showDatePicker(
+                        //     //         context: context,
+                        //     //         initialDate: DateTime.now(),
+                        //     //         firstDate: DateTime(2014, 8),
+                        //     //         lastDate: DateTime(2101));
+                        //     //   },
+                        //     //   child: const Icon(Icons.calendar_today,
+                        //     //       color: BHColorPrimary, size: 16),
+                        //     // ),
+                        //     labelStyle: secondaryTextStyle(),
+                        //   ),
+                        // ),
+                        
+                      ],
+                    ),
                   ),
                   SizedBox(height: 20,),
                   SizedBox(
@@ -319,12 +469,7 @@ class NewRegistrationScreenState extends State<BHRegistrationScreen> {
                             borderRadius: BorderRadius.circular(20.0)),
                       ),
                       onPressed: () {
-
-                        // print('hassm');
-                        // EAHomeScreen().launch(context);
-                        //   _signUP();
-                        //  customerregisters();
-                        //registerUsers();
+                        std_regsister();
                       },
                       child: const Text(
                         "Sign up",
@@ -335,38 +480,15 @@ class NewRegistrationScreenState extends State<BHRegistrationScreen> {
                       ),
                     ),
                   ),
-                  //    Container(
-                  //   width: MediaQuery.of(context).size.width,
-                  //   child: ElevatedButton(
-                  //     style: ElevatedButton.styleFrom(
-                  //       padding: EdgeInsets.all(12),
-                  //       primary: BHColorPrimary,
-                  //       shape: RoundedRectangleBorder(
-                  //           borderRadius: BorderRadius.circular(10.0)),
-                  //     ),
-                  //     onPressed: () {
-                  //       print("Ok");
-                  //     bussinessregisters();
-                  //      //registerUsers();
-                  //     },
-                  //     child: Text(
-                  //       "BUSSINESS REGSISTER",
-                  //       style: TextStyle(
-                  //           color: whiteColor,
-                  //           fontSize: 15,
-                  //           fontWeight: FontWeight.bold),
-                  //     ),
-                  //   ),
-                  // )
+                 
                   12.height,
                   // 24.height,
                   Align(
                     alignment: Alignment.bottomCenter,
                     child: GestureDetector(
                       onTap: () {
-                        // EAHomeScreen();
-                        // bussinessregisters() ;
-                        finish(context);
+                        
+                        Navigator.push(context, MaterialPageRoute(builder: (context)=>BHLoginScreen()));
                       },
                       child: const Text.rich(
                         TextSpan(
@@ -387,63 +509,64 @@ class NewRegistrationScreenState extends State<BHRegistrationScreen> {
             ),
           ),
 
-          const BackButton(color: Colors.white),
+          // const BackButton(color: Colors.white),
         ]),
       ),
     )));
   }
 
-  Future<void> logins() async {
-    if (passwordCont.text.isNotEmpty && emailCont.text.isNotEmpty) {
-      var response = await http.post(
-          Uri.parse("https://hostrelic.com/sys/wowonder/api/create-account'"),
-          body: ({
-            'name': fullNameCont.text,
-            'email': emailCont.text,
-            'password': passwordCont.text,
-            'server_key':
-                '0173e2128db8a97b9e375dfb3c731de728fd5611-ec0acfc09ee7c3e289c855741382d18f-85844002'
-          }));
+//   Future<void> logins() async {
+//     if (passwordCont.text.isNotEmpty && emailCont.text.isNotEmpty) {
+//       var response = await http.post(
+//           Uri.parse("https://hostrelic.com/sys/wowonder/api/create-account'"),
+//           body: ({
+//             'name': fullNameCont.text,
+//             'email': emailCont.text,
+//             'password': passwordCont.text,
+//             'server_key':
+//                 '0173e2128db8a97b9e375dfb3c731de728fd5611-ec0acfc09ee7c3e289c855741382d18f-85844002'
+//           }));
 
-      if (response.statusCode == 200) {
-        // Navigator.push(context, MaterialPageRoute(builder: (context)=> BHDashedBoardScreen()
-//        BHDashedBoardScreen({}).launch(context);
-        ;
-      } else {
-        // ignore: use_build_context_synchronously
-        ScaffoldMessenger.of(context)
-            .showSnackBar(const SnackBar(content: Text("Invalid")));
-      }
-    } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text("Black Field Not Allowed")));
-    }
-  }
-
-  void registerUsers() async {
-    var url = "https://hostrelic.com/sys/wowonder/api/create-account";
-    var data = {
-      "username": fullNameCont.text,
-      "email": emailCont.text,
-      "password": passwordCont.text,
-      'server_key':
-          '0173e2128db8a97b9e375dfb3c731de728fd5611-ec0acfc09ee7c3e289c855741382d18f-85844002'
-    };
-
-    var body = json.encode(data);
-    var urlParse = Uri.parse(url);
-    http.Response responses = await http.post(urlParse,
-        body: body, headers: {"Content-Type": "application/json"});
-    var datas = jsonDecode(responses.body);
-
-// Response response = await http.post(
-//   urlParse,
-//   body: body,
-//   headers: {
-//     "Content-Type": "application/json"
+//       if (response.statusCode == 200) {
+//         // Navigator.push(context, MaterialPageRoute(builder: (context)=> BHDashedBoardScreen()
+// //        BHDashedBoardScreen({}).launch(context);
+//         ;
+//       } else {
+//         // ignore: use_build_context_synchronously
+//         ScaffoldMessenger.of(context)
+//             .showSnackBar(const SnackBar(content: Text("Invalid")));
+//       }
+//     } else {
+//       ScaffoldMessenger.of(context).showSnackBar(
+//           const SnackBar(content: Text("Black Field Not Allowed")));
+//     }
 //   }
-// );
 
-// var data = jsonDecode(response.body);
-  }
+//   void registerUsers() async {
+//     var url = "https://hostrelic.com/sys/wowonder/api/create-account";
+//     var data = {
+//       "username": fullNameCont.text,
+//       "email": emailCont.text,
+//       "password": passwordCont.text,
+//       'server_key':
+//           '0173e2128db8a97b9e375dfb3c731de728fd5611-ec0acfc09ee7c3e289c855741382d18f-85844002'
+//     };
+
+//     var body = json.encode(data);
+//     var urlParse = Uri.parse(url);
+//     http.Response responses = await http.post(urlParse,
+//         body: body, headers: {"Content-Type": "application/json"});
+//     var datas = jsonDecode(responses.body);
+
+// // Response response = await http.post(
+// //   urlParse,
+// //   body: body,
+// //   headers: {
+// //     "Content-Type": "application/json"
+// //   }
+// // );
+
+// // var data = jsonDecode(response.body);
+//   }
+
 }

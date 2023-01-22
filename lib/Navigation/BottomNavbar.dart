@@ -1,6 +1,8 @@
 // import 'package:animatedbottomnavbar/screens/screen1.dart';
 // import 'package:animatedbottomnavbar/screens/screen2.dart';
 // import 'package:animatedbottomnavbar/screens/screen3.dart';
+import 'package:bus_tracking_app/MainScreen/About.dart';
+import 'package:bus_tracking_app/MainScreen/Driver_Location.dart';
 import 'package:bus_tracking_app/MainScreen/Home.dart';
 import 'package:bus_tracking_app/MainScreen/ProfileScreen.dart';
 import 'package:bus_tracking_app/MainScreen/Tracking.dart';
@@ -19,7 +21,9 @@ class BottomNavBar extends StatefulWidget {
 class _BottomNavBarState extends State<BottomNavBar> {
   List Screens = [
    HomePage(),
-   TrackingScreen(),
+   DriverLocation(),
+   AboutPage(),
+   
    LSProfileFragment(),
 
   ];
@@ -41,6 +45,12 @@ class _BottomNavBarState extends State<BottomNavBar> {
           ),
           Icon(
             Icons.location_on,
+            size: 30,
+            color:Color.fromARGB(255, 4, 72, 128),
+
+          ),
+           Icon(
+            Icons.add_business_outlined,
             size: 30,
             color:Color.fromARGB(255, 4, 72, 128),
 

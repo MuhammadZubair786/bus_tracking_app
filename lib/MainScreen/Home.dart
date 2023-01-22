@@ -1,5 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'package:bus_tracking_app/MainScreen/Bus_Detail.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -12,121 +14,140 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  List Bus_List = [];
 
-   List Bus_List =[
-  {"Time":"7pm to 10pm ",
-  "route":"Data 1 to data 2",
-
-  },
-  {"Time":"7pm ",
-  "route":"Data 2 to data 3",
-
-  },
-  {"Time":"7pm ",
-  "route":"Data 3 to data 4",
-
-  },
-  {"Time":"7pm to 10pm ",
-  "route":"Data 1 to data 2",
-
-  },
-  {"Time":"7pm ",
-  "route":"Data 2 to data 3",
-
-  },
-  {"Time":"7pm ",
-  "route":"Data 3 to data 4",
-
-  },
-   {"Time":"7pm ",
-  "route":"Data 2 to data 3",
-
-  },
-  {"Time":"7pm ",
-  "route":"Data 3 to data 4",
-
-  },
-   {"Time":"7pm ",
-  "route":"Data 2 to data 3",
-
-  },
-  {"Time":"7pm ",
-  "route":"Data 3 to data 4",
-
+  @override
+  void initState() {
+    super.initState();
+    All_Bus();
   }
- ];
+
+  All_Bus() async {
+    DatabaseReference userRef =
+        await FirebaseDatabase.instance.reference().child('Drivers');
+
+    userRef.once().then((value) {
+      print(value.snapshot.value);
+      var Data = value.snapshot.value as Map;
+      for (var i in Data.values) {
+        Bus_List.add(i);
+        // print(i);
+
+      }
+      setState(() {});
+      print("call" + Data.values.length.toString());
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Bus Timing With Route"),
-        backgroundColor: Color.fromARGB(255, 4, 72, 128),
+        title: Text("Bus Timing With Route",style: TextStyle( 
+          fontSize: 25,
+              fontWeight: FontWeight.bold,
+          color: Color.fromARGB(255, 6, 2, 233),)),
+         backgroundColor: Colors.white,
         elevation: 30,
+        
         automaticallyImplyLeading: false,
         centerTitle: true,
-        shadowColor: Color.fromARGB(255, 127, 128, 129),
+        shadowColor: Color.fromARGB(255, 219, 219, 219),
       ),
       body: SingleChildScrollView(
-          child: SafeArea(
-            child: Container(
-             decoration: const BoxDecoration(
-              gradient: LinearGradient(
-                  begin: Alignment.topLeft,
-                  end: Alignment.topRight,
-                  colors: [ Color.fromARGB(255, 241, 241, 241),
-                   Color.fromARGB(255, 201, 201, 201)
-                   
-                  ]),
-            ),
-            // height: 400,
-            width: 800,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start
-              ,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-              //   Container(
-              //     width: MediaQuery.of(context).size.width,
-              //     // ignore: prefer_const_constructors
-              //     color:  Color.fromARGB(255, 73, 3, 187),
-              //     height: 50,
-              //     child: Center(
-              //       child: Text("Bus Timing ",style: TextStyle(fontSize: 25,
-                    
-              //        fontFamily: "ButtonMelian",color: Color.fromARGB(255, 72, 4, 219),
-              //  ),),
-              //     )),
-               ListView.builder(
-                shrinkWrap: true,
-                physics: BouncingScrollPhysics(),
-                itemCount: Bus_List.length,
-                itemBuilder: ((context, index) {
-                  return Card(
-                    elevation: 20,
-                    child:
-                    index%2==0 ? 
-                     Container(
-                      child: ListTile(
-                        leading: Icon(Icons.bus_alert_sharp,color: Colors.green,),
-                        title: Text(Bus_List[index]["route"].toString()),
-                        subtitle: Text(Bus_List[index]["Time"].toString()),
-                      ),
-                    ):  Container(
-                      child: ListTile(
-                        leading: Icon(Icons.bus_alert_sharp,color: Color.fromARGB(255, 199, 4, 4),),
-                        title: Text(Bus_List[index]["route"].toString()),
-                        subtitle: Text(Bus_List[index]["Time"].toString()),
-                      ),
-                    ),
-                  );   
-                })
-            )]),
-          
-              ),
-          )
-          ),
-    );
+        child: Container(
+          margin: EdgeInsets.all(10),
+          child:
 
+          Bus_List.length> 0 ? 
+          
+           ListView.builder(
+              shrinkWrap: true,
+              physics: NeverScrollableScrollPhysics(),
+              itemCount: Bus_List.length,
+              itemBuilder: ((context, index) {
+                // print(Bus_List[index]["Bus"]);
+                return GestureDetector(
+                    onTap: () {
+                             
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  BusDriver_Detial(Bus_List[index])));
+                    },
+                    child: Bus_List[index]["Bus"]!=null && Bus_List[index]["Bus"]["latitude"] != null ?
+                         Card(
+                          elevation: 20,
+                          child: ListTile(
+                        //  leading: Icon(Icons.bus_alert_sharp,color: Colors.red,size: 30,),
+                        
+                         
+                          leading:   Column(
+                                children: [
+                                  Icon(Icons.bus_alert_sharp,color: Colors.red,size: 30,),
+                                  SizedBox(height: 6,),
+                                  Text("Time : ${Bus_List[index]["Bus"]["Bus_Time"].toString()}",style: TextStyle(
+                                    fontSize: 15,fontWeight: FontWeight.bold,
+                                  ),)
+                                ],
+                              ),
+                           
+                         
+                         
+                         title:   Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                           children: [
+                            
+                             Container(
+                              // margin: EdgeInsets.all(5),
+                              child: Text("Bus No # : ${Bus_List[index]["Bus"]["Bus_Numb"]}"
+                              ,
+                              style: TextStyle(
+                                    fontSize: 16,fontWeight: FontWeight.bold,
+                              ))),
+                             Container(
+                              //  margin: EdgeInsets.all(5),
+                              child: Text("Bus Route # :  ${Bus_List[index]["Bus"]["Bus_Route"].toString()}"
+                               ,
+                              style: TextStyle(
+                                    fontSize: 16,fontWeight: FontWeight.bold,
+                              )
+                              )),
+                             
+                           ],
+                         ),
+                         
+                       
+                       
+                         
+                       )
+                        // )
+                ):SizedBox());
+                         
+                          // ),
+                // );
+              })):
+
+             Container(
+              margin: EdgeInsets.all(50),
+                // ignore: prefer_const_literals_to_create_immutables
+                child:
+                  Center(
+                    child: SizedBox(
+                      width: 100,
+                      height:100,
+                      child: CircularProgressIndicator(
+                        backgroundColor: Color.fromARGB(255, 7, 219, 219),
+                        strokeWidth: 10,
+                       color: Color.fromARGB(255, 4, 2, 121),
+                      ),
+                    )),
+                
+              )
+        ),
+      ),
+    );
   }
 }
