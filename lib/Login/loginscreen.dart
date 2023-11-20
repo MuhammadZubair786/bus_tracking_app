@@ -1,4 +1,4 @@
-// ignore_for_file: sort_child_properties_last, deprecated_member_use, use_build_context_synchronously
+// ignore_for_file: sort_child_properties_last, deprecated_member_use, use_build_context_synchronously, prefer_const_constructors
 
 import 'package:bus_tracking_app/Driver/Driver_Navigation.dart';
 import 'package:bus_tracking_app/Login/SignupSelect.dart';
@@ -193,21 +193,21 @@ class BHLoginScreenState extends State<BHLoginScreen> {
             .then((DatabaseEvent event) async {
           login_user = event.snapshot.value;
 
-          print("Call");
-
-          // print(login_user["userUid"]);
           if (login_user == null) {
+            print("Not strd");
             DatabaseReference userRef1 =
                 FirebaseDatabase.instance.reference().child('Drivers');
             final data = await userRef1
                 .child(user.user!.uid)
                 .once()
                 .then((DatabaseEvent event) async {
-              print(event.snapshot.value);
+              // print(event.snapshot.value);
               login_user = event.snapshot.value;
               final prefs = await SharedPreferences.getInstance();
 
               if (login_user == null) {
+                print("Not admin");
+
                 DatabaseReference userRef1 =
                     FirebaseDatabase.instance.reference().child('Admin');
                 final data = await userRef1
@@ -216,51 +216,105 @@ class BHLoginScreenState extends State<BHLoginScreen> {
                     .then((DatabaseEvent event) async {
                   print(event.snapshot.value);
                   login_user = event.snapshot.value;
+                  if (login_user != null) {
+                    print("Admin");
+                    prefs.setString("Uid", login_user["userUid"]);
+                    prefs.setString("User Name", login_user["username"]);
+                    print(login_user["Role"]);
+
+                    if (login_user["Role"] == "Driver") {
+                      var data = await prefs.setString("Login_User", "Driver");
+                      print(data);
+                      Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => Driver_Navigation()));
+                    } else if (login_user["Role"] == "Student") {
+                      var data = await prefs.setString("Login_User", "Student");
+                      print(data);
+                      Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => BottomNavBar()));
+                    } else if (login_user["Role"] == "Admin") {
+                      var data = await prefs.setString("Login_User", "Admin");
+                      print(data);
+                      Navigator.pushReplacement(context,
+                          MaterialPageRoute(builder: (context) => AdminHome()));
+                    }
+                  } else {
+                    print("Not get");
+                    // print("Not strd");
+                  }
                 });
-              }
+              } else {
+                prefs.setString("Uid", login_user["userUid"]);
+                prefs.setString("User Name", login_user["username"]);
+                print(login_user["Role"]);
 
-              prefs.setString("Uid", login_user["userUid"]);
-              prefs.setString("User Name", login_user["username"]);
-              print(login_user["Role"]);
-
-              if (login_user["Role"] == "Driver") {
-                var data = await prefs.setString("Login_User", "Driver");
-                print(data);
-                Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => Driver_Navigation()));
-              } else if (login_user["Role"] == "Student") {
-                var data = await prefs.setString("Login_User", "Student");
-                print(data);
-                Navigator.pushReplacement(context,
-                    MaterialPageRoute(builder: (context) => BottomNavBar()));
-              } else if (login_user["Role"] == "Admin") {
-                var data = await prefs.setString("Login_User", "Admin");
-                print(data);
-                Navigator.pushReplacement(context,
-                    MaterialPageRoute(builder: (context) => AdminHome()));
+                if (login_user["Role"] == "Driver") {
+                  var data = await prefs.setString("Login_User", "Driver");
+                  print(data);
+                  Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => Driver_Navigation()));
+                } else if (login_user["Role"] == "Student") {
+                  var data = await prefs.setString("Login_User", "Student");
+                  print(data);
+                  Navigator.pushReplacement(context,
+                      MaterialPageRoute(builder: (context) => BottomNavBar()));
+                } else if (login_user["Role"] == "Admin") {
+                  var data = await prefs.setString("Login_User", "Admin");
+                  print(data);
+                  Navigator.pushReplacement(context,
+                      MaterialPageRoute(builder: (context) => AdminHome()));
+                }
               }
             });
+          } else {
+            final prefs = await SharedPreferences.getInstance();
+
+            print("cal1");
+            prefs.setString("Uid", login_user["userUid"]);
+            prefs.setString("User Name", login_user["username"]);
+            print(login_user["Role"]);
+            if (login_user["Role"] == "Driver") {
+              var data = await prefs.setString("Login_User", "Driver");
+              print(data);
+              Navigator.pushReplacement(context,
+                  MaterialPageRoute(builder: (context) => Driver_Navigation()));
+            } else if (login_user["Role"] == "Student") {
+              var data = await prefs.setString("Login_User", "Student");
+              print(data);
+              Navigator.pushReplacement(context,
+                  MaterialPageRoute(builder: (context) => BottomNavBar()));
+            } else if (login_user["Role"] == "Admin") {
+              var data = await prefs.setString("Login_User", "Admin");
+              print(data);
+              Navigator.pushReplacement(context,
+                  MaterialPageRoute(builder: (context) => AdminHome()));
+            }
           }
 
           // Obtain shared preferences.
 
-          final prefs = await SharedPreferences.getInstance();
-          prefs.setString("Uid", login_user["userUid"]);
-          prefs.setString("User Name", login_user["username"]);
+          // print("call123");
+          // final prefs = await SharedPreferences.getInstance();
+          // prefs.setString("Uid", login_user["userUid"]);
+          // prefs.setString("User Name", login_user["username"]);
 
-          if (login_user["Role"] == "Driver") {
-            var data = await prefs.setString("Login_User", "Driver");
-            print(data);
-            Navigator.pushReplacement(context,
-                MaterialPageRoute(builder: (context) => Driver_Navigation()));
-          } else if (login_user["Role"] == "Student") {
-            var data = await prefs.setString("Login_User", "Student");
-            print(data);
-            Navigator.pushReplacement(context,
-                MaterialPageRoute(builder: (context) => BottomNavBar()));
-          }
+          // if (login_user["Role"] == "Driver") {
+          //   var data = await prefs.setString("Login_User", "Driver");
+          //   print(data);
+          //   Navigator.pushReplacement(context,
+          //       MaterialPageRoute(builder: (context) => Driver_Navigation()));
+          // } else if (login_user["Role"] == "Student") {
+          //   var data = await prefs.setString("Login_User", "Student");
+          //   print(data);
+          //   Navigator.pushReplacement(context,
+          //       MaterialPageRoute(builder: (context) => BottomNavBar()));
+          // }
           //
         });
       } catch (e) {
@@ -299,202 +353,180 @@ class BHLoginScreenState extends State<BHLoginScreen> {
     return SafeArea(
       child: Scaffold(
         //backgroundColor: BHColorPrimary,
-        body: Stack(
-          children: <Widget>[
-            Container(
-              margin: EdgeInsets.only(top: 30),
-              child: Center(
-                  child: const Text(
-                'SAU BUS TRACKER',
-                style: TextStyle(
-                  fontSize: 30,
-                  color: Color.fromARGB(255, 4, 72, 128),
+        body: SingleChildScrollView(
+          child: Container(
+            margin: EdgeInsets.only(top: 0),
+            // height: 500,
+            width: MediaQuery.of(context).size.width,
+            padding: EdgeInsets.all(25),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.only(
+                  topRight: Radius.circular(15), topLeft: Radius.circular(15)),
+              color: Colors.white,
+            ),
+            child: Column(
+              children: <Widget>[
+                Container(
+                  // margin: EdgeInsets.only(top: 30),
+                  child: Center(
+                      child: const Text(
+                    'SAU BUS TRACKER',
+                    style: TextStyle(
+                      fontSize: 30,
+                      color: Color.fromARGB(255, 4, 2, 122),
+                    ),
+                  )
+                      // child: Image.asset("a"),
+                      ),
+
+                  width: MediaQuery.of(context).size.width,
+                  height: 100,
                 ),
-              )
-                  // child: Image.asset("a"),
+                Container(
+                  width: MediaQuery.of(context).size.width * 0.8,
+                  child: Center(
+                    child: Image.network(
+                      'https://firebasestorage.googleapis.com/v0/b/learner-app-e457c.appspot.com/o/SAUTransport-removebg-preview.png?alt=media&token=01410e99-de51-4b9c-9834-33e614649c78',
+                      height: 100,
+                      width: 400,
+                      // color:
+                      //     Color.fromARGB(255, 185, 181, 181).withOpacity(0.9),
+                    ),
                   ),
-              width: MediaQuery.of(context).size.width,
-              height: 100,
-            ),
-            SingleChildScrollView(
-              child: Container(
-                margin: EdgeInsets.only(top: 120),
-                height: 400,
-                width: MediaQuery.of(context).size.width,
-                padding: EdgeInsets.all(25),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.only(
-                      topRight: Radius.circular(15),
-                      topLeft: Radius.circular(15)),
-                  color: Colors.white,
                 ),
-                child: Column(
-                  children: <Widget>[
-                    Container(
-                      child: TextFormField(
-                        controller: emailCont,
-                        focusNode: emailFocusNode,
-                        keyboardType: TextInputType.emailAddress,
-                        textInputAction: TextInputAction.next,
-                        onFieldSubmitted: (value) {
-                          FocusScope.of(context)
-                              .requestFocus(passWordFocusNode);
-                        },
-                        style: primaryTextStyle(),
-                        decoration: InputDecoration(
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(20),
-                          ),
-                          // enabledBorder: UnderlineInputBorder(
-                          //     borderSide: BorderSide(color: BHAppDividerColor)),
-                          // focusedBorder: UnderlineInputBorder(
-                          //     borderSide: BorderSide(color: BHColorPrimary)),
-                          labelText: " Email",
-                          labelStyle:
-                              TextStyle(color: BHGreyColor, fontSize: 14),
-                          prefixIcon: Icon(
-                            Icons.email,
-                            color: Color.fromARGB(255, 4, 72, 128),
-                          ),
-                        ),
+                SizedBox(
+                  height: 20,
+                ),
+                Container(
+                  child: TextFormField(
+                    controller: emailCont,
+                    focusNode: emailFocusNode,
+                    keyboardType: TextInputType.emailAddress,
+                    textInputAction: TextInputAction.next,
+                    onFieldSubmitted: (value) {
+                      FocusScope.of(context).requestFocus(passWordFocusNode);
+                    },
+                    style: primaryTextStyle(),
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      // enabledBorder: UnderlineInputBorder(
+                      //     borderSide: BorderSide(color: BHAppDividerColor)),
+                      // focusedBorder: UnderlineInputBorder(
+                      //     borderSide: BorderSide(color: BHColorPrimary)),
+                      labelText: " Email",
+                      labelStyle: TextStyle(color: BHGreyColor, fontSize: 14),
+                      prefixIcon: Icon(
+                        Icons.email,
+                        color: Color.fromARGB(255, 4, 72, 128),
                       ),
                     ),
-                    SizedBox(
-                      height: 15.0,
+                  ),
+                ),
+                SizedBox(
+                  height: 15.0,
+                ),
+                TextFormField(
+                  controller: passwordCont,
+                  focusNode: passWordFocusNode,
+                  obscureText: !_showPassword,
+                  keyboardType: TextInputType.text,
+                  style: primaryTextStyle(),
+                  decoration: InputDecoration(
+                    labelText: "Password",
+                    labelStyle: TextStyle(color: BHGreyColor, fontSize: 14),
+                    prefixIcon: Icon(
+                      Icons.key,
+                      color: Color.fromARGB(255, 4, 72, 128),
                     ),
-                    TextFormField(
-                      controller: passwordCont,
-                      focusNode: passWordFocusNode,
-                      obscureText: !_showPassword,
-                      keyboardType: TextInputType.text,
-                      style: primaryTextStyle(),
-                      decoration: InputDecoration(
-                        labelText: "Password",
-                        labelStyle: TextStyle(color: BHGreyColor, fontSize: 14),
-                        prefixIcon: Icon(
-                          Icons.key,
+                    suffixIcon: GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          _showPassword = !_showPassword;
+                        });
+                      },
+                      child: Icon(
+                          _showPassword
+                              ? Icons.visibility
+                              : Icons.visibility_off,
                           color: Color.fromARGB(255, 4, 72, 128),
-                        ),
-                        suffixIcon: GestureDetector(
-                          onTap: () {
-                            setState(() {
-                              _showPassword = !_showPassword;
-                            });
-                          },
-                          child: Icon(
-                              _showPassword
-                                  ? Icons.visibility
-                                  : Icons.visibility_off,
-                              color: Color.fromARGB(255, 4, 72, 128),
-                              size: 20),
-                        ),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                        // enabledBorder: UnderlineInputBorder(
-                        //     borderSide: BorderSide(color: BHAppDividerColor)),
-                        // focusedBorder: UnderlineInputBorder(
-                        //     borderSide: BorderSide(color: BHColorPrimary)),
-                      ),
+                          size: 20),
                     ),
-                    const SizedBox(height: 16),
-                    Align(
-                      alignment: Alignment.centerRight,
-                      child: const Text(BHTxtForgetPwd,
-                              style:
-                                  TextStyle(color: Colors.blue, fontSize: 14))
-                          .onTap(
-                        () {
-                          //    ForgotPasswordScreen().launch(context);
-                        },
-                      ),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(20),
                     ),
-                    40.height,
-                    SizedBox(
-                      width: MediaQuery.of(context).size.width,
-                      child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          padding: const EdgeInsets.all(17),
-                          // ignore: deprecated_member_use
-                          primary: Color.fromARGB(255, 4, 72, 128),
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(20.0)),
-                        ),
-                        onPressed: () async {
-                          login_user();
-                          // Navigator.push(context, MaterialPageRoute(builder: (context)=>BottomNavBar()));
-                        },
-                        child: const Text(
-                          BHBtnSignIn,
-                          style: TextStyle(
-                              color: whiteColor,
-                              fontSize: 17,
-                              fontWeight: FontWeight.bold),
-                        ),
-                      ),
-                    ),
-                    16.height,
-                    // Row(
-                    //   mainAxisAlignment: MainAxisAlignment.center,
-                    //   children: [
-                    //     // Container(
-                    //     //         height: 1,
-                    //     //         color: BHAppDividerColor,
-                    //     //         margin: EdgeInsets.only(right: 10))
-                    //     //     .expand(),
-                    //     // Text(BHTxtOrSignIn, style: secondaryTextStyle()),
-                    //     // Container(
-                    //     //         height: 1,
-                    //     //         color: BHAppDividerColor,
-                    //     //         margin: EdgeInsets.only(left: 10))
-                    //     //     .expand(),
-                    //   ],
-                    // ),
-                    // 16.height,
-                    // Row(
-                    //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    //   children: [
-                    //     SvgPicture.asset(BHTwitterIcon, height: 40, width: 40),
-                    //     SvgPicture.asset(BHFacebookIcon, height: 40, width: 40),
-                    //     SvgPicture.asset(BHPinterestIcon,
-                    //         height: 40, width: 40),
-                    //   ],
-                    // ),
-                    12.height,
-                    Align(
-                      alignment: Alignment.bottomCenter,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          const Text.rich(
-                            TextSpan(
-                                text: 'Dont you Have and accoount?',
-                                style: TextStyle(color: Colors.black)),
-                          ).onTap(
-                            () {
-                              //  BHRegistrationScreen().launch(context);
-                            },
-                          ),
-                          SizedBox(
-                            width: 10.0,
-                          ),
-                          const Text.rich(
-                            TextSpan(
-                                text: BHBtnSignUp,
-                                style: TextStyle(color: Colors.blue)),
-                          ).onTap(
-                            () {
-                              BHRegistrationScreen().launch(context);
-                            },
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
+                  ),
                 ),
-              ),
+                const SizedBox(height: 16),
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: const Text(BHTxtForgetPwd,
+                          style: TextStyle(color: Colors.blue, fontSize: 14))
+                      .onTap(
+                    () {
+                      //    ForgotPasswordScreen().launch(context);
+                    },
+                  ),
+                ),
+                40.height,
+                SizedBox(
+                  width: MediaQuery.of(context).size.width,
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      padding: const EdgeInsets.all(17),
+                      // ignore: deprecated_member_use
+                      primary: Color.fromARGB(255, 4, 72, 128),
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20.0)),
+                    ),
+                    onPressed: () async {
+                      login_user();
+                      // Navigator.push(context, MaterialPageRoute(builder: (context)=>BottomNavBar()));
+                    },
+                    child: const Text(
+                      BHBtnSignIn,
+                      style: TextStyle(
+                          color: whiteColor,
+                          fontSize: 17,
+                          fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                ),
+                16.height,
+                12.height,
+                Align(
+                  alignment: Alignment.bottomCenter,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Text.rich(
+                        TextSpan(
+                            text: 'Dont you Have and accoount?',
+                            style: TextStyle(color: Colors.black)),
+                      ).onTap(
+                        () {
+                          //  BHRegistrationScreen().launch(context);
+                        },
+                      ),
+                      SizedBox(
+                        width: 10.0,
+                      ),
+                      const Text.rich(
+                        TextSpan(
+                            text: BHBtnSignUp,
+                            style: TextStyle(color: Colors.blue)),
+                      ).onTap(
+                        () {
+                          BHRegistrationScreen().launch(context);
+                        },
+                      ),
+                    ],
+                  ),
+                ),
+              ],
             ),
-          ],
+          ),
         ),
       ),
     );

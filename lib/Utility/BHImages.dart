@@ -1,10 +1,11 @@
-
-
 const BHHairSalonLogo = "";
 const BHAppLogo = "images/bh_logo.svg";
-const BHWalkThroughImg1 = "https://m.media-amazon.com/images/I/61DJ1pgm1VL._AC_SY780_.jpg";
-const BHWalkThroughImg2 = "https://st2.depositphotos.com/1001951/7784/i/950/depositphotos_77841548-stock-photo-clients-chair-in-barber-shop.jpg";
-const BHWalkThroughImg3 = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSFHWKgaf8_3wtC8X5CZdlTI5eoPHDQJJCY94d2yOXa2qcptQ_AKxLG3_X560bD4k6mIfY&usqp=CAU";
+const BHWalkThroughImg1 =
+    "https://m.media-amazon.com/images/I/61DJ1pgm1VL._AC_SY780_.jpg";
+const BHWalkThroughImg2 =
+    "https://st2.depositphotos.com/1001951/7784/i/950/depositphotos_77841548-stock-photo-clients-chair-in-barber-shop.jpg";
+const BHWalkThroughImg3 =
+    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSFHWKgaf8_3wtC8X5CZdlTI5eoPHDQJJCY94d2yOXa2qcptQ_AKxLG3_X560bD4k6mIfY&usqp=CAU";
 const BHFacebookIcon = "images/bh_facebookIcon.svg";
 const BHTwitterIcon = "images/bh_twitterIcon.svg";
 const BHPinterestIcon = "images/bh_pinterestIcon.svg";

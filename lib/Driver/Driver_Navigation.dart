@@ -100,14 +100,14 @@ class _Driver_NavigationState extends State<Driver_Navigation> {
     });
   }
 
- 
-
   Future getlocation() async {
     return await Geolocator.getCurrentPosition(
         desiredAccuracy: LocationAccuracy.high);
   }
 
   Timer? timer;
+
+  var time_check = false;
 
   @override
   void initState() {
@@ -124,49 +124,61 @@ class _Driver_NavigationState extends State<Driver_Navigation> {
     checkdata();
 
     DatabaseReference userRef =
-            FirebaseDatabase.instance.reference().child('Drivers');
-   
-      timer =
-          Timer.periodic(Duration(seconds: 5), (Timer t) => update_location());
-   
+        FirebaseDatabase.instance.reference().child('Drivers');
+
+    startTimer();
+
+    // Timer.periodic(Duration(seconds: 5), (Timer t) => update_location());
   }
 
-  @override
-  void dispose() {
-    timer?.cancel();
-    super.dispose();
+  startTimer() {
+    timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      if (time_check == true) {
+        cancelTimer();
+      } else {
+        update_location();
+      }
+    });
   }
+
+  cancelTimer() {
+    timer!.cancel();
+  }
+
+  // @override
+  // void dispose() {
+  //   timer?.cancel();
+  //   super.dispose();
+  // }
 
   update_location() {
     _getLocationPermission().whenComplete(() {
       getlocation().then((value) async {
         // setState(() {
-          currentLocation = value;
+        currentLocation = value;
         // });
 
-if(check==true){
-        final prefs = await SharedPreferences.getInstance();
-        var uid = prefs.getString("Uid");
+        if (check == true) {
+          final prefs = await SharedPreferences.getInstance();
+          var uid = prefs.getString("Uid");
 
-        DatabaseReference userRef =
-            FirebaseDatabase.instance.reference().child('Drivers');
+          if (uid != null) {
+            DatabaseReference userRef =
+                FirebaseDatabase.instance.reference().child('Drivers');
 
-        await userRef.child(uid.toString()).child("Bus").update({
-          // "Driver_Contact":DriverCont,
-          "longitude": currentLocation!.longitude,
-          "latitude": currentLocation!.latitude,
-        });
-        print("call v" + currentLocation.toString());
-      }
-      else{
-        print("No bus assign " );
-      }
+            await userRef.child(uid.toString()).child("Bus").update({
+              // "Driver_Contact":DriverCont,
+              "longitude": currentLocation!.longitude,
+              "latitude": currentLocation!.latitude,
+            });
+            print("call v" + currentLocation.toString());
+          }
+        } else {
+          print("No bus assign ");
+        }
       });
     });
   }
-
-
-
 
   update_Status() async {
     final prefs = await SharedPreferences.getInstance();
@@ -182,10 +194,6 @@ if(check==true){
     });
 
     status = true;
-    
-      timer =
-          Timer.periodic(Duration(seconds: 35), (Timer t) => update_location());
-   
 
     checkdata();
   }
@@ -297,14 +305,13 @@ if(check==true){
                           ],
                         )),
                       ),
-
                       GestureDetector(
                         onTap: () {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
                                   builder: (context) => MapSample()));
-                          // Navigator.pop(context);
+                          //
                           // Navigator.push(
                           //   context,
                           //   MaterialPageRoute(builder: (context)=>Home()));
@@ -318,53 +325,17 @@ if(check==true){
                             ),
                             title: Text("Home")),
                       ),
-
-                      //  GestureDetector(onTap:(){
-                      //   // Navigator.pop(context);
-                      //   // Navigator.push(
-                      //   //   context,
-                      //   //   MaterialPageRoute(builder: (context)=>Services()));
-                      // },
-                      // child:  ListTile(
-                      //   leading:   IconButton(
-                      //     icon: Icon((Icons.home)),
-                      //     color:Color.fromARGB(255, 30, 6, 121),
-                      //     iconSize: 30,
-                      //     onPressed: () {},
-                      //   ),
-                      //   title: Text("Services")
-
-                      // ),
-                      // ),
-                      ListTile(
-                          leading: IconButton(
-                            icon: Icon((Icons.contact_page)),
-                            color: Color.fromARGB(255, 30, 6, 121),
-                            iconSize: 30,
-                            onPressed: () {},
-                          ),
-                          title: Text("Contact")),
-                      ListTile(
-                          leading: IconButton(
-                            icon: Icon((Icons.app_blocking_rounded)),
-                            color: Color.fromARGB(255, 30, 6, 121),
-                            iconSize: 30,
-                            onPressed: () {},
-                          ),
-                          title: Text("About")),
-
-                      ListTile(
-                          leading: IconButton(
-                            icon: Icon((Icons.settings_sharp)),
-                            color: Color.fromARGB(255, 30, 6, 121),
-                            iconSize: 30,
-                            onPressed: () {},
-                          ),
-                          title: Text("Setting")),
                       GestureDetector(
                         onTap: () async {
+                          print("ok");
+
+                          time_check = true;
+                          setState(() {});
+                          cancelTimer();
                           final prefs = await SharedPreferences.getInstance();
                           prefs.clear();
+                          // timer!.cancel();
+
                           // ignore: use_build_context_synchronously
                           Navigator.pushReplacement(
                               context,
@@ -377,14 +348,14 @@ if(check==true){
                               color: Color.fromARGB(255, 30, 6, 121),
                               iconSize: 30,
                               onPressed: () async {
-                                final prefs =
-                                    await SharedPreferences.getInstance();
-                                prefs.clear();
-                                // ignore: use_build_context_synchronously
-                                Navigator.pushReplacement(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => BHLoginScreen()));
+                                // final prefs =
+                                //     await SharedPreferences.getInstance();
+                                // prefs.clear();
+                                // // ignore: use_build_context_synchronously
+                                // Navigator.pushReplacement(
+                                //     context,
+                                //     MaterialPageRoute(
+                                //         builder: (context) => BHLoginScreen()));
                               },
                             ),
                             title: Text("Log Out")),

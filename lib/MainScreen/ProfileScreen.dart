@@ -23,7 +23,7 @@ class LSProfileFragment extends StatefulWidget {
 
 class LSProfileFragmentState extends State<LSProfileFragment> {
   bool isNotification = true;
-  var name ="";
+  var name = "";
 
   @override
   void initState() {
@@ -32,26 +32,21 @@ class LSProfileFragmentState extends State<LSProfileFragment> {
   }
 
   init() async {
-    
     final prefs = await SharedPreferences.getInstance();
     // prefs.clear();
-   name = prefs.getString("User Name")!;
-   print(name);
-   setState(() { });
-   
+    name = prefs.getString("User Name")!;
+    print(name);
+    setState(() {});
+
     // await 2.microseconds.delay;
     // setStatusBarColor(Colors.transparent);
-
-
-
   }
 
   Logout() async {
-     final prefs = await SharedPreferences.getInstance();
+    final prefs = await SharedPreferences.getInstance();
     prefs.clear();
-  Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>BHLoginScreen()));
-
-
+    Navigator.pushReplacement(
+        context, MaterialPageRoute(builder: (context) => BHLoginScreen()));
   }
 
   @override
@@ -69,7 +64,8 @@ class LSProfileFragmentState extends State<LSProfileFragment> {
             Stack(
               alignment: Alignment.centerLeft,
               children: [
-                commonCacheImageWidget(LSProfileBg, 220, width: context.width(), fit: BoxFit.cover),
+                commonCacheImageWidget(LSProfileBg, 220,
+                    width: context.width(), fit: BoxFit.cover),
                 Container(
                   height: 220,
                   // width: context.width(),
@@ -84,20 +80,36 @@ class LSProfileFragmentState extends State<LSProfileFragment> {
                       width: 100,
                       padding: EdgeInsets.all(3),
                       // decoration: boxDecorationWithRoundedCorners(borderRadius: BorderRadius.circular(50)),
-                      child: Image.asset(LSProfile, height: 100, width: 100, fit: BoxFit.cover).cornerRadiusWithClipRRect(50),
+                      child: Image.asset(LSProfile,
+                              height: 100, width: 100, fit: BoxFit.cover)
+                          .cornerRadiusWithClipRRect(50),
                     ),
-                    
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(name.toUpperCase(), style: boldTextStyle(size: 18, )),
+                        Text(name.toUpperCase(),
+                            style: boldTextStyle(
+                              size: 18,
+                            )),
                         RichText(
                           text: TextSpan(
                             children: [
                               WidgetSpan(
-                                child: Icon(Icons.location_on, color:Color.fromARGB(255, 4, 72, 128),size: 30).paddingRight(4),
+                                child: Icon(Icons.location_on,
+                                        color: Color.fromARGB(255, 4, 72, 128),
+                                        size: 30)
+                                    .paddingRight(4),
                               ),
-                              TextSpan(text: 'Hyderabad', style: primaryTextStyle(color:Color.fromARGB(255, 3, 78, 139,),size: 30)),
+                              TextSpan(
+                                  text: 'Hyderabad',
+                                  style: primaryTextStyle(
+                                      color: Color.fromARGB(
+                                        255,
+                                        3,
+                                        78,
+                                        139,
+                                      ),
+                                      size: 30)),
                             ],
                           ),
                         ),
@@ -110,29 +122,36 @@ class LSProfileFragmentState extends State<LSProfileFragment> {
             8.height,
             Container(
               width: context.width(),
-              decoration: boxDecorationRoundedWithShadow(8, backgroundColor: context.cardColor),
+              decoration: boxDecorationRoundedWithShadow(8,
+                  backgroundColor: context.cardColor),
               margin: EdgeInsets.all(8),
               child: Column(
                 children: [
                   SettingItemWidget(
                       title: 'Account Info',
                       leading: Icon(LineIcons.info),
-                      padding: EdgeInsets.only(left: 16, right: 16, top: 12, bottom: 12),
-                      decoration: boxDecorationWithShadow(borderRadius: BorderRadius.circular(8), backgroundColor: context.cardColor),
+                      padding: EdgeInsets.only(
+                          left: 16, right: 16, top: 12, bottom: 12),
+                      decoration: boxDecorationWithShadow(
+                          borderRadius: BorderRadius.circular(8),
+                          backgroundColor: context.cardColor),
                       onTap: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (context)=>User_Detail()));
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => User_Detail()));
                         //
                       }),
-                  SettingItemWidget(
-                      title: 'My Address',
-                      leading: Icon(LineIcons.map_pin),
-                      padding: EdgeInsets.only(left: 16, right: 16, top: 12, bottom: 12),
-                      decoration: boxDecorationWithShadow(borderRadius: BorderRadius.circular(8), backgroundColor: context.cardColor),
-                      onTap: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (context)=>User_Detail()));
+                  // SettingItemWidget(
+                  //     title: 'My Address',
+                  //     leading: Icon(LineIcons.map_pin),
+                  //     padding: EdgeInsets.only(left: 16, right: 16, top: 12, bottom: 12),
+                  //     decoration: boxDecorationWithShadow(borderRadius: BorderRadius.circular(8), backgroundColor: context.cardColor),
+                  //     onTap: () {
+                  //       Navigator.push(context, MaterialPageRoute(builder: (context)=>User_Detail()));
 
-                        //
-                      }),
+                  //       //
+                  //     }),
                   // SettingItemWidget(
                   //     title: 'Logout',
                   //     leading: Icon(LineIcons.key),
@@ -140,7 +159,6 @@ class LSProfileFragmentState extends State<LSProfileFragment> {
                   //     decoration: boxDecorationWithShadow(borderRadius: BorderRadius.circular(8), backgroundColor: context.cardColor),
                   //     onTap: () {
                   //       Logout();
-                        
 
                   //       // LSChangePasswordScreen().launch(context);
                   //     }),
@@ -150,14 +168,15 @@ class LSProfileFragmentState extends State<LSProfileFragment> {
             Text('Other', style: secondaryTextStyle()).paddingAll(16),
             Container(
               width: context.width(),
-              decoration: boxDecorationRoundedWithShadow(8, backgroundColor: context.cardColor),
+              decoration: boxDecorationRoundedWithShadow(8,
+                  backgroundColor: context.cardColor),
               margin: EdgeInsets.all(8),
               child: Column(
                 children: [
                   Row(
                     children: [
                       // appStore.isDarkModeOn ? Icon(Icons.brightness_2) : Icon(Icons.wb_sunny_rounded),
-                      
+
                       // Text('Choose App Theme', style: boldTextStyle()).expand(),
                       // Switch(
                       //   value: ,
@@ -169,7 +188,9 @@ class LSProfileFragmentState extends State<LSProfileFragment> {
                       //   },
                       // ),
                     ],
-                  ).paddingOnly(left: 16, top: 8, right: 16, bottom: 8).onTap(() async {
+                  )
+                      .paddingOnly(left: 16, top: 8, right: 16, bottom: 8)
+                      .onTap(() async {
                     if (getBoolAsync(isDarkModeOnPref)) {
                       // appStore.toggleDarkMode(value: false);
                       await setValue(isDarkModeOnPref, false);
@@ -206,8 +227,11 @@ class LSProfileFragmentState extends State<LSProfileFragment> {
                           setState(() {});
                         },
                       ),
-                      padding: EdgeInsets.only(left: 16, right: 16, top: 4, bottom: 4),
-                      decoration: boxDecorationWithShadow(borderRadius: BorderRadius.circular(8), backgroundColor: context.cardColor),
+                      padding: EdgeInsets.only(
+                          left: 16, right: 16, top: 4, bottom: 4),
+                      decoration: boxDecorationWithShadow(
+                          borderRadius: BorderRadius.circular(8),
+                          backgroundColor: context.cardColor),
                       onTap: () {
                         //
                       }),
@@ -219,13 +243,16 @@ class LSProfileFragmentState extends State<LSProfileFragment> {
                   //     onTap: () {
                   //       //
                   //     }),
-                       SettingItemWidget(
+                  SettingItemWidget(
                       title: 'Log out',
                       leading: Icon(Icons.logout),
-                      padding: EdgeInsets.only(left: 16, right: 16, top: 12, bottom: 12),
-                      decoration: boxDecorationWithShadow(borderRadius: BorderRadius.circular(8), backgroundColor: context.cardColor),
+                      padding: EdgeInsets.only(
+                          left: 16, right: 16, top: 12, bottom: 12),
+                      decoration: boxDecorationWithShadow(
+                          borderRadius: BorderRadius.circular(8),
+                          backgroundColor: context.cardColor),
                       onTap: () {
-                         Logout();
+                        Logout();
                         // Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>LSSignInScreen()));
                         //
                       }),

@@ -8,7 +8,7 @@ import 'package:flutter/src/widgets/framework.dart';
 
 class BusDriver_Detial extends StatefulWidget {
   var Listdata;
-   BusDriver_Detial(this.Listdata);
+  BusDriver_Detial(this.Listdata);
 
   @override
   State<BusDriver_Detial> createState() => _BusDriver_DetialState(Listdata);
@@ -21,14 +21,22 @@ class _BusDriver_DetialState extends State<BusDriver_Detial> {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      
       home: Scaffold(
-         appBar: AppBar(
-        backgroundColor: Colors.white,
-        centerTitle: true,
-        title: Text("Bus & Driver Details" ,style: TextStyle(fontSize: 22,
-              fontWeight: FontWeight.bold
-              ,color: Color.fromARGB(255, 6, 2, 233),),)),
+        appBar: AppBar(
+            leading: IconButton(
+              icon: Icon(Icons.arrow_back, color: Colors.black),
+              onPressed: () => Navigator.of(context).pop(),
+            ),
+            backgroundColor: Colors.white,
+            centerTitle: true,
+            title: Text(
+              "Bus & Driver Details",
+              style: TextStyle(
+                fontSize: 22,
+                fontWeight: FontWeight.bold,
+                color: Color.fromARGB(255, 4, 2, 122),
+              ),
+            )),
         body: SingleChildScrollView(
           child: ListView.builder(
             itemCount: 1,
@@ -56,80 +64,84 @@ class _BusDriver_DetialState extends State<BusDriver_Detial> {
                       ),
                       Text(
                         "Bus Number : ${Listdata["Bus"]["Bus_Numb"]} ",
-                        style:
-                            TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                        style: TextStyle(
+                            fontSize: 18, fontWeight: FontWeight.bold),
                       ),
                       SizedBox(
                         height: 10,
                       ),
                       Text(
                         "Bus Time : ${Listdata["Bus"]["Bus_Time"]} ",
-                        style:
-                            TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                        style: TextStyle(
+                            fontSize: 18, fontWeight: FontWeight.bold),
                       ),
                       SizedBox(
                         height: 10,
                       ),
                       Text(
                         "Bus Route : ${Listdata["Bus"]["Bus_Route"]} ",
-                        style:
-                            TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                        style: TextStyle(
+                            fontSize: 18, fontWeight: FontWeight.bold),
                       ),
                       SizedBox(
                         height: 10,
                       ),
                       Text(
                         "State: ${Listdata["Bus"]["Status"]} ",
-                        style:
-                            TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                        style: TextStyle(
+                            fontSize: 18, fontWeight: FontWeight.bold),
                       ),
                       SizedBox(
                         height: 10,
                       ),
-                       Text(
+                      Text(
                         "Driver Name: ${Listdata["username"]} ",
-                        style:
-                            TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                        style: TextStyle(
+                            fontSize: 18, fontWeight: FontWeight.bold),
                       ),
                       SizedBox(
                         height: 10,
                       ),
-                       Text(
+                      Text(
                         "Driver Email: ${Listdata["email"]} ",
-                        style:
-                            TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                        style: TextStyle(
+                            fontSize: 18, fontWeight: FontWeight.bold),
                       ),
-                        SizedBox(
+                      SizedBox(
                         height: 10,
                       ),
-                       Row(
-                         children: [
-                           Text(
+                      Row(
+                        children: [
+                          Text(
                             "Driver Contact: ${Listdata["Contact_No"]} ",
-                            style:
-                                TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                      ),
-                         SizedBox(
-                        height: 10,
-                      ),
-                         ],
-                       ),
-                        SizedBox(
-                        height: 10,
-                      ),
-                        Center(
-                          child: ElevatedButton(
-                            onPressed:(){
-                              // print(Listdata["Bus"][""]);
-                              Navigator.push(context, MaterialPageRoute(builder: (context)=>DriverLocationSpefic(Listdata["Bus"])));
-                            },
-                          child: Text("View Location",
-                          style:
-                              TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                      ),
+                            style: TextStyle(
+                                fontSize: 18, fontWeight: FontWeight.bold),
                           ),
-                        )
-                     
+                          SizedBox(
+                            height: 10,
+                          ),
+                        ],
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Center(
+                        child: ElevatedButton(
+                          onPressed: () {
+                            // print(Listdata["Bus"][""]);
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => DriverLocationSpefic(
+                                        Listdata["Bus"], Listdata["userUid"])));
+                          },
+                          child: Text(
+                            "View Location",
+                            style: TextStyle(
+                                fontSize: 18, fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                      )
                     ],
                   ),
                 ),

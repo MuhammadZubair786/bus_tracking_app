@@ -2,19 +2,27 @@ const BHSender_id = 1;
 const BHReceiver_id = 2;
 
 const BHWalkThroughTitle1 = "Find barbershop nearby";
-const BHWalkThroughSubTitle1 = "Get your hairstyle done by the nearest highly reviewed barbershop";
+const BHWalkThroughSubTitle1 =
+    "Get your hairstyle done by the nearest highly reviewed barbershop";
 const BHWalkThroughTitle2 = "Attractive Promotions";
-const BHWalkThroughSubTitle2 = "You can avail attractive promotions going on near you";
+const BHWalkThroughSubTitle2 =
+    "You can avail attractive promotions going on near you";
 const BHWalkThroughTitle3 = "The Professional Specialists";
-const BHWalkThroughSubTitle3 = "Be your own label. Get your hair done by Professional hair artists.";
-const BHForgotPasswordSubTitle = "Please enter your Email so we can help you recover your password";
-const BHVerificationTitle = "Enter the OTP code from the phone we just sent you";
+const BHWalkThroughSubTitle3 =
+    "Be your own label. Get your hair done by Professional hair artists.";
+const BHForgotPasswordSubTitle =
+    "Please enter your Email so we can help you recover your password";
+const BHVerificationTitle =
+    "Enter the OTP code from the phone we just sent you";
 const BHResetPasswordTitle = "Enter your new password and confirm it.";
-const BHAlertDialogTitle = "Your password has been completely reset, login and use the app";
+const BHAlertDialogTitle =
+    "Your password has been completely reset, login and use the app";
 const BHDetailTitle =
     "Time to stop imagining and take advantage of the unique properties of graphene. Paragraf develop and deliver game-changing, commercial-quality, graphene-based electronic devices using contamination-free technology.Read more ";
-const BHReview = "Love it !!! /n I had a fun party with my new hair color, Thank you.";
-const BHInviteFriendsTitle = "Please share the code below for your friends to join the HASA.";
+const BHReview =
+    "Love it !!! /n I had a fun party with my new hair color, Thank you.";
+const BHInviteFriendsTitle =
+    "Please share the code below for your friends to join the HASA.";
 const BHBtnNext = 'Next';
 const BHBtnGetStarted = 'Get Started';
 const BHTxtForgetPwd = 'Forgot password ?';
@@ -94,4 +102,5 @@ const BHBottomNavMessages = 'Messages';
 const BHBottomNavProfile = 'Profile';
 const BaseUrl = 'https://assets.iqonic.design/old-themeforest-images/prokit';
 
-const server_key = 'e8b9080f72126d08d47d4ae7f9e660221494d2f7-0ca2f68eabb596f498371983a2b607ca-96710287';
+const server_key =
+    'e8b9080f72126d08d47d4ae7f9e660221494d2f7-0ca2f68eabb596f498371983a2b607ca-96710287';

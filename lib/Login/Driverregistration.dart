@@ -25,6 +25,8 @@ class BHDriverRegistrationScreen extends StatefulWidget {
 
 class NewRegistrationScreenState extends State<BHDriverRegistrationScreen> {
   bool _showPassword = false;
+  bool _showPassword2 = false;
+
   TextEditingController emailCont = TextEditingController();
   TextEditingController passwordCont = TextEditingController();
   // ignore: non_constant_identifier_names
@@ -126,51 +128,47 @@ class NewRegistrationScreenState extends State<BHDriverRegistrationScreen> {
             textColor: Colors.white,
             fontSize: 16.0);
       } else {
-        try{
-        UserCredential userCredential = await _auth
-            .createUserWithEmailAndPassword(email: email, password: password);
-        String User_Uid = userCredential.user!.uid;
-        print(userCredential.user);
+        try {
+          UserCredential userCredential = await _auth
+              .createUserWithEmailAndPassword(email: email, password: password);
+          String User_Uid = userCredential.user!.uid;
+          print(userCredential.user);
 
-         var obj = {
-          "email": email,
-          "username": name,
-          "password": password,
-          "userUid": User_Uid,
-          "address": addr,
-          "Contact_No":phone,
-          "Cnic":cnic,
-          "Role":"Driver"
-          
-        };
-         await userRef.child(User_Uid).set(obj);
-         Fluttertoast.showToast(
-            msg: "Driver Add Succefully",
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.BOTTOM,
-            timeInSecForIosWeb: 5,
-            backgroundColor: Color.fromARGB(255, 30, 6, 121),
-            textColor: Colors.white,
-            fontSize: 16.0);
+          var obj = {
+            "email": email,
+            "username": name,
+            "password": password,
+            "userUid": User_Uid,
+            "address": addr,
+            "Contact_No": phone,
+            "Cnic": cnic,
+            "Role": "Driver"
+          };
+          await userRef.child(User_Uid).set(obj);
+          Fluttertoast.showToast(
+              msg: "Driver Add Succefully",
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.BOTTOM,
+              timeInSecForIosWeb: 5,
+              backgroundColor: Color.fromARGB(255, 30, 6, 121),
+              textColor: Colors.white,
+              fontSize: 16.0);
 
-            Navigator.push(context, MaterialPageRoute(builder: (context)=>
-        BHLoginScreen()
-      ));
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => BHLoginScreen()));
 
-        // print(user);
+          // print(user);
+        } catch (e) {
+          Fluttertoast.showToast(
+              msg: e.toString(),
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.BOTTOM,
+              timeInSecForIosWeb: 5,
+              backgroundColor: Color.fromARGB(255, 30, 6, 121),
+              textColor: Colors.white,
+              fontSize: 16.0);
         }
-        catch(e){
-           Fluttertoast.showToast(
-            msg: e.toString(),
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.BOTTOM,
-            timeInSecForIosWeb: 5,
-            backgroundColor: Color.fromARGB(255, 30, 6, 121),
-            textColor: Colors.white,
-            fontSize: 16.0);
-        }
-
-        }
+      }
     } else {
       print("ca");
       Fluttertoast.showToast(
@@ -202,7 +200,7 @@ class NewRegistrationScreenState extends State<BHDriverRegistrationScreen> {
   Widget build(BuildContext context) {
     return SafeArea(
         child: Scaffold(
-          // appBar: AppBar(),
+            // appBar: AppBar(),
             body: SingleChildScrollView(
       child: Container(
         color: Color.fromARGB(255, 224, 223, 223),
@@ -281,7 +279,7 @@ class NewRegistrationScreenState extends State<BHDriverRegistrationScreen> {
                         ),
                       ),
 
-                       SizedBox(
+                      SizedBox(
                         height: 15,
                       ),
                       TextFormField(
@@ -301,7 +299,7 @@ class NewRegistrationScreenState extends State<BHDriverRegistrationScreen> {
                           labelStyle: secondaryTextStyle(),
                         ),
                       ),
-                       SizedBox(
+                      SizedBox(
                         height: 15,
                       ),
 
@@ -325,7 +323,7 @@ class NewRegistrationScreenState extends State<BHDriverRegistrationScreen> {
                       SizedBox(
                         height: 15,
                       ),
-                        TextFormField(
+                      TextFormField(
                         controller: addressCont,
                         focusNode: addressFocusNode,
                         textInputAction: TextInputAction.next,
@@ -364,18 +362,16 @@ class NewRegistrationScreenState extends State<BHDriverRegistrationScreen> {
                           labelStyle: secondaryTextStyle(),
                           suffixIcon: GestureDetector(
                             onTap: () {
-                              setState(() {
-                                _showPassword = !_showPassword;
-                              });
+                              // setState(() {
+                              //   _showPassword = !_showPassword;
+                              // });
                             },
                             child: const Icon(Icons.email,
                                 color: Color(0xff140967), size: 20),
                           ),
                         ),
                       ),
-                     
 
-                      
                       SizedBox(
                         height: 15,
                       ),
@@ -415,7 +411,7 @@ class NewRegistrationScreenState extends State<BHDriverRegistrationScreen> {
                       TextFormField(
                         controller: ConfirmPas,
                         focusNode: ConfirmPasNode,
-                        obscureText: !_showPassword,
+                        obscureText: !_showPassword2,
                         keyboardType: TextInputType.text,
                         style: primaryTextStyle(),
                         decoration: InputDecoration(
@@ -423,12 +419,13 @@ class NewRegistrationScreenState extends State<BHDriverRegistrationScreen> {
                           labelStyle: secondaryTextStyle(),
                           suffixIcon: GestureDetector(
                             onTap: () {
+                              print(_showPassword2);
                               setState(() {
-                                _showPassword = !_showPassword;
+                                // _showPassword2 = !_showPassword2;
                               });
                             },
                             child: Icon(
-                                _showPassword
+                                _showPassword2
                                     ? Icons.visibility
                                     : Icons.visibility_off,
                                 color: Color(0xff140967),
@@ -494,10 +491,6 @@ class NewRegistrationScreenState extends State<BHDriverRegistrationScreen> {
                       SizedBox(
                         height: 15,
                       ),
-                    
-
-
-                     
                     ],
                   ),
                   SizedBox(
@@ -561,7 +554,10 @@ class NewRegistrationScreenState extends State<BHDriverRegistrationScreen> {
                         // bussinessregisters() ;
                         // finish(context);
 
-                        Navigator.push(context, MaterialPageRoute(builder: (context)=>BHLoginScreen()));
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => BHLoginScreen()));
                       },
                       child: const Text.rich(
                         TextSpan(

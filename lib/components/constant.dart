@@ -4,34 +4,42 @@ const BHReceiver_id = 2;
 // ignore: constant_identifier_names
 const BHWalkThroughTitle1 = "Find barbershop nearby";
 // ignore: constant_identifier_names
-const BHWalkThroughSubTitle1 = "Get your hairstyle done by the nearest highly reviewed barbershop";
+const BHWalkThroughSubTitle1 =
+    "Get your hairstyle done by the nearest highly reviewed barbershop";
 // ignore: constant_identifier_names
 const BHWalkThroughTitle2 = "Attractive Promotions";
-const BHWalkThroughSubTitle2 = "You can avail attractive promotions going on near you";
+const BHWalkThroughSubTitle2 =
+    "You can avail attractive promotions going on near you";
 // ignore: constant_identifier_names
 const BHWalkThroughTitle3 = "The Professional Specialists";
-const BHWalkThroughSubTitle3 = "Be your own label. Get your hair done by Professional hair artists.";
+const BHWalkThroughSubTitle3 =
+    "Be your own label. Get your hair done by Professional hair artists.";
 // ignore: constant_identifier_names
-const BHForgotPasswordSubTitle = "Please enter your Email so we can help you recover your password";
+const BHForgotPasswordSubTitle =
+    "Please enter your Email so we can help you recover your password";
 // ignore: constant_identifier_names
-const BHVerificationTitle = "Enter the OTP code from the phone we just sent you";
+const BHVerificationTitle =
+    "Enter the OTP code from the phone we just sent you";
 // ignore: constant_identifier_names
 const BHResetPasswordTitle = "Enter your new password and confirm it.";
 // ignore: constant_identifier_names
-const BHAlertDialogTitle = "Your password has been completely reset, login and use the app";
+const BHAlertDialogTitle =
+    "Your password has been completely reset, login and use the app";
 // ignore: constant_identifier_names
 const BHDetailTitle =
     "Time to stop imagining and take advantage of the unique properties of graphene. Paragraf develop and deliver game-changing, commercial-quality, graphene-based electronic devices using contamination-free technology.Read more ";
 // ignore: constant_identifier_names
-const BHReview = "Love it !!! /n I had a fun party with my new hair color, Thank you.";
+const BHReview =
+    "Love it !!! /n I had a fun party with my new hair color, Thank you.";
 // ignore: constant_identifier_names
-const BHInviteFriendsTitle = "Please share the code below for your friends to join the HASA.";
+const BHInviteFriendsTitle =
+    "Please share the code below for your friends to join the HASA.";
 // ignore: constant_identifier_names
 const BHBtnNext = 'Next';
 // ignore: constant_identifier_names
 const BHBtnGetStarted = 'Get Started';
 // ignore: constant_identifier_names
-const BHTxtForgetPwd = 'Forget Password';
+const BHTxtForgetPwd = 'Forget Password?Contact for Admin';
 // ignore: constant_identifier_names
 const BHBtnSignIn = 'Login';
 // ignore: constant_identifier_names
@@ -126,4 +134,5 @@ const BHBottomNavMessages = 'Messages';
 const BHBottomNavProfile = 'Profile';
 const BaseUrl = 'https://assets.iqonic.design/old-themeforest-images/prokit';
 
-const server_key = 'e8b9080f72126d08d47d4ae7f9e660221494d2f7-0ca2f68eabb596f498371983a2b607ca-96710287';
+const server_key =
+    'e8b9080f72126d08d47d4ae7f9e660221494d2f7-0ca2f68eabb596f498371983a2b607ca-96710287';

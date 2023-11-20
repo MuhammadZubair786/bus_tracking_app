@@ -18,7 +18,7 @@ class DriverLocationState extends State<DriverLocation> {
   final Completer<GoogleMapController> _controller =
       Completer<GoogleMapController>();
 
- @override
+  @override
   void initState() {
     super.initState();
     check_Loc();
@@ -31,31 +31,29 @@ class DriverLocationState extends State<DriverLocation> {
     DatabaseReference userRef =
         FirebaseDatabase.instance.reference().child('Drivers');
 
-   await userRef.once().then((DatabaseEvent value) {
-      print("map check"+value.snapshot.value.toString());
+    await userRef.once().then((DatabaseEvent value) {
+      print("map check" + value.snapshot.value.toString());
       var data = value.snapshot.value;
       data as Map;
-      
+
       print(data.values.toList()[0]);
-      for(var i=0;i<data.values.toList().length;i++){
-        if(data.values.toList()[i]["Bus"]!=null){
-        print("data"+data.values.toList()[i]["Bus"]["latitude"].toString());
-        // if(data[i]["Bus"] !=null){
-        //       print("c" + data[i]["Bus"].toString());
-        _markers.add(Marker(
-            markerId: MarkerId(data.values.toList()[i]["Bus"]["Bus_Numb"].toString()),
-            position: LatLng(data.values.toList()[i]["Bus"]["latitude"],data.values.toList()[i]["Bus"]["longitude"]),
-            infoWindow: InfoWindow(title:data.values.toList()[i]["Bus"]["Bus_Numb"].toString())));
-            setState(() {
-              
-            });
-        // }
+      for (var i = 0; i < data.values.toList().length; i++) {
+        if (data.values.toList()[i]["Bus"] != null) {
+          print("data" + data.values.toList()[i]["Bus"]["latitude"].toString());
+          // if(data[i]["Bus"] !=null){
+          //       print("c" + data[i]["Bus"].toString());
+          _markers.add(Marker(
+              markerId: MarkerId(
+                  data.values.toList()[i]["Bus"]["Bus_Numb"].toString()),
+              position: LatLng(data.values.toList()[i]["Bus"]["latitude"],
+                  data.values.toList()[i]["Bus"]["longitude"]),
+              infoWindow: InfoWindow(
+                  title:
+                      data.values.toList()[i]["Bus"]["Bus_Numb"].toString())));
+          setState(() {});
+          // }
+        }
       }
-      }
-     
-
-        
-
 
       // }
     });
@@ -66,11 +64,10 @@ class DriverLocationState extends State<DriverLocation> {
     zoom: 14.4746,
   );
 
-
   // ignore: prefer_final_fields
   List<Marker> _markers = <Marker>[
     // Marker(
-      
+
     //     markerId: MarkerId("1"),
     //     position: LatLng(27.9483339, 67.0536799),
     //     infoWindow: InfoWindow(title: "My Current location"))
@@ -80,12 +77,17 @@ class DriverLocationState extends State<DriverLocation> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-            appBar: AppBar(
-        backgroundColor: Colors.white,
-        centerTitle: true,
-        title: Text("All Bus Track" ,style: TextStyle(fontSize: 22,
-              fontWeight: FontWeight.bold
-              ,color: Color.fromARGB(255, 6, 2, 233),),)),
+        appBar: AppBar(
+            backgroundColor: Colors.white,
+            centerTitle: true,
+            title: Text(
+              "All Bus Track",
+              style: TextStyle(
+                fontSize: 22,
+                fontWeight: FontWeight.bold,
+                color: Color.fromARGB(255, 4, 2, 122),
+              ),
+            )),
         body: SafeArea(
           child: GoogleMap(
             mapType: MapType.normal,

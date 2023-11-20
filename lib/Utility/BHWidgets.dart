@@ -6,14 +6,17 @@ import 'package:nb_utils/nb_utils.dart';
 
 import 'BHColors.dart';
 
-Widget textFieldWidget(String hintText, TextEditingController controller, {bool obscureText = false, bool isPassword = true}) {
+Widget textFieldWidget(String hintText, TextEditingController controller,
+    {bool obscureText = false, bool isPassword = true}) {
   return TextFormField(
     obscureText: isPassword,
     style: TextStyle(color: Colors.black),
     controller: controller,
     decoration: InputDecoration(
-      enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: Colors.grey)),
-      focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: Colors.grey)),
+      enabledBorder:
+          UnderlineInputBorder(borderSide: BorderSide(color: Colors.grey)),
+      focusedBorder:
+          UnderlineInputBorder(borderSide: BorderSide(color: Colors.grey)),
       labelText: hintText,
       labelStyle: TextStyle(color: Colors.grey),
       suffixIcon: GestureDetector(
@@ -60,7 +63,8 @@ Widget raiseButton1(String btnText1) {
     onPressed: () {},
     child: Text(
       btnText1,
-      style: TextStyle(color: Colors.white, fontSize: 15, fontWeight: FontWeight.bold),
+      style: TextStyle(
+          color: Colors.white, fontSize: 15, fontWeight: FontWeight.bold),
     ),
   );
 }
@@ -88,8 +92,10 @@ class EditTextFieldWidgetState extends State<EditTextFieldWidget> {
       style: TextStyle(color: Colors.black),
       // obscureText: !showPassword,
       decoration: InputDecoration(
-        enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: Colors.grey)),
-        focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: Colors.grey)),
+        enabledBorder:
+            UnderlineInputBorder(borderSide: BorderSide(color: Colors.grey)),
+        focusedBorder:
+            UnderlineInputBorder(borderSide: BorderSide(color: Colors.grey)),
         labelText: widget.hintText,
         labelStyle: TextStyle(color: Colors.grey),
       ),
@@ -111,34 +117,47 @@ class ChatMessageWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       mainAxisSize: MainAxisSize.min,
-      crossAxisAlignment: isMe.validate() ? CrossAxisAlignment.end : CrossAxisAlignment.start,
+      crossAxisAlignment:
+          isMe.validate() ? CrossAxisAlignment.end : CrossAxisAlignment.start,
       children: [
         Container(
           padding: EdgeInsets.symmetric(horizontal: 12, vertical: 2),
-          margin: isMe.validate() ? EdgeInsets.only(top: 3.0, bottom: 3.0, right: 0, left: (500 * 0.25).toDouble()) : EdgeInsets.only(top: 4.0, bottom: 4.0, left: 0, right: (500 * 0.25).toDouble()),
+          margin: isMe.validate()
+              ? EdgeInsets.only(
+                  top: 3.0,
+                  bottom: 3.0,
+                  right: 0,
+                  left: (500 * 0.25).toDouble())
+              : EdgeInsets.only(
+                  top: 4.0,
+                  bottom: 4.0,
+                  left: 0,
+                  right: (500 * 0.25).toDouble()),
           decoration: BoxDecoration(
             color: !isMe ? Colors.red.withOpacity(0.85) : context.cardColor,
             boxShadow: defaultBoxShadow(),
             borderRadius: isMe.validate()
-                ? BorderRadius.only(bottomLeft: Radius.circular(10), topLeft: Radius.circular(10), topRight: Radius.circular(10))
-                : BorderRadius.only(topLeft: Radius.circular(10), bottomRight: Radius.circular(10), topRight: Radius.circular(10)),
-            border: Border.all(color: isMe ? Theme.of(context).dividerColor : Colors.transparent),
+                ? BorderRadius.only(
+                    bottomLeft: Radius.circular(10),
+                    topLeft: Radius.circular(10),
+                    topRight: Radius.circular(10))
+                : BorderRadius.only(
+                    topLeft: Radius.circular(10),
+                    bottomRight: Radius.circular(10),
+                    topRight: Radius.circular(10)),
+            border: Border.all(
+                color:
+                    isMe ? Theme.of(context).dividerColor : Colors.transparent),
           ),
           child: Column(
-            crossAxisAlignment: isMe ? CrossAxisAlignment.end : CrossAxisAlignment.start,
+            crossAxisAlignment:
+                isMe ? CrossAxisAlignment.end : CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: [
-              Flexible(
-                  child: Text("data.msg!",
-                      style: primaryTextStyle(
-                        
-                                 
-                                  ))),
+              Flexible(child: Text("data.msg!", style: primaryTextStyle())),
               Text(
                 "data.time!",
-                style: secondaryTextStyle(
-                  
-                    size: 12),
+                style: secondaryTextStyle(size: 12),
               )
             ],
           ),
@@ -148,12 +167,14 @@ class ChatMessageWidget extends StatelessWidget {
   }
 }
 
-Widget commonCacheImageWidget(String? url, double height, {double? width, BoxFit? fit}) {
+Widget commonCacheImageWidget(String? url, double height,
+    {double? width, BoxFit? fit}) {
   if (url.validate().startsWith('http')) {
     print(url.validate().startsWith('http'));
     if (isMobile) {
       return CachedNetworkImage(
-        placeholder: placeholderWidgetFn() as Widget Function(BuildContext, String)?,
+        placeholder:
+            placeholderWidgetFn() as Widget Function(BuildContext, String)?,
         imageUrl: '$url',
         height: height,
         width: width,
@@ -163,16 +184,21 @@ Widget commonCacheImageWidget(String? url, double height, {double? width, BoxFit
         },
       );
     } else {
-      return Image.asset(url!, height: height, width: 350, fit: BoxFit.fitWidth ?? BoxFit.fitWidth);
+      return Image.asset(url!,
+          height: height, width: 350, fit: BoxFit.fitWidth ?? BoxFit.fitWidth);
     }
   } else {
-    return Image.asset(url!, height: height, width: 350,fit: BoxFit.fitWidth ?? BoxFit.fitWidth);
+    return Image.asset(url!,
+        height: height, width: 350, fit: BoxFit.fitWidth ?? BoxFit.fitWidth);
   }
 }
 
-Widget? Function(BuildContext, String) placeholderWidgetFn() => (_, s) => placeholderWidget();
+Widget? Function(BuildContext, String) placeholderWidgetFn() =>
+    (_, s) => placeholderWidget();
 
-Widget placeholderWidget() => Image.network('https://m.media-amazon.com/images/I/61DJ1pgm1VL._AC_SY780_.jpg', fit: BoxFit.cover);
+Widget placeholderWidget() => Image.network(
+    'https://m.media-amazon.com/images/I/61DJ1pgm1VL._AC_SY780_.jpg',
+    fit: BoxFit.cover);
 
 void changeStatusColor(Color color) async {
   setStatusBarColor(color);

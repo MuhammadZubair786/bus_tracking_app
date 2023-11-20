@@ -43,7 +43,7 @@ class _RegisterState extends State<PhoneRegister> {
                   color: Colors.deepPurple.shade50,
                   shape: BoxShape.circle,
                 ),
-               // child: Text('Logo')
+                // child: Text('Logo')
               ),
               SizedBox(
                 height: 24,

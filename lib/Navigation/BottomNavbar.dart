@@ -20,49 +20,44 @@ class BottomNavBar extends StatefulWidget {
 
 class _BottomNavBarState extends State<BottomNavBar> {
   List Screens = [
-   HomePage(),
-   DriverLocation(),
-   AboutPage(),
-   
-   LSProfileFragment(),
-
+    HomePage(),
+    DriverLocation(),
+    AboutPage(),
+    LSProfileFragment(),
   ];
-  int _selectedIndex =0;
+  int _selectedIndex = 0;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       extendBody: true,
       backgroundColor: Color.fromARGB(255, 184, 182, 182),
       bottomNavigationBar: CurvedNavigationBar(
-        index:  _selectedIndex,
+        index: _selectedIndex,
         backgroundColor: Color.fromARGB(0, 248, 246, 246),
         color: Color.fromARGB(255, 218, 218, 218),
         items: const [
           Icon(
             Icons.home,
             size: 30,
-            color:Color.fromARGB(255, 4, 72, 128),
+            color: Color.fromARGB(255, 4, 72, 128),
           ),
           Icon(
             Icons.location_on,
             size: 30,
-            color:Color.fromARGB(255, 4, 72, 128),
-
+            color: Color.fromARGB(255, 4, 72, 128),
           ),
-           Icon(
-            Icons.add_business_outlined,
+          Icon(
+            Icons.desktop_mac_outlined,
             size: 30,
-            color:Color.fromARGB(255, 4, 72, 128),
-
+            color: Color.fromARGB(255, 4, 72, 128),
           ),
           Icon(
             Icons.person,
             size: 30,
-            color:Color.fromARGB(255, 4, 72, 128),
-
+            color: Color.fromARGB(255, 4, 72, 128),
           ),
         ],
-        onTap: (index){
+        onTap: (index) {
           setState(() {
             _selectedIndex = index;
           });

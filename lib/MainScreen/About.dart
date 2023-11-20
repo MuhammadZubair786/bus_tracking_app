@@ -28,7 +28,7 @@ class _AboutPageState extends State<AboutPage> {
                   fontWeight: FontWeight.bold
                   // ignore: prefer_const_constructors
                   ,
-                  color: Color.fromARGB(255, 6, 2, 233),
+                  color: Color.fromARGB(255, 30, 6, 121),
                 ),
               )),
           body: SingleChildScrollView(
@@ -48,9 +48,10 @@ class _AboutPageState extends State<AboutPage> {
                       SizedBox(
                         height: 30,
                       ),
-                      MakeCont(context,"images/img1.jpeg","Sooraj Hamirani","2K18/IT/172"),
-                      MakeCont(context,"images/img2.jpeg","Santosh Kumar","2K18/IT/154"),
-                      
+                      MakeCont(context, "images/img1.jpeg", "Sooraj Hamirani",
+                          "2K18/IT/172"),
+                      MakeCont(context, "images/img2.jpeg", "Santosh Kumar",
+                          "2K18/IT/154"),
                     ],
                   ),
                 ),
@@ -59,42 +60,74 @@ class _AboutPageState extends State<AboutPage> {
                     SizedBox(
                       height: 30,
                     ),
-                    MakeCont(context,"images/img3.jpeg","Adresh Kumar","2K18/IT/15"),
-                    MakeCont(context,"images/img4.jpeg","Shafaat Ali","2K18/IT/161"),
-                    
-                     
+                    MakeCont(context, "images/img3.jpeg", "Adresh Kumar",
+                        "2K18/IT/15"),
+                    MakeCont(context, "images/img4.jpeg", "Shafaat Ali",
+                        "2K18/IT/161"),
                   ],
                 ),
+                SizedBox(
+                  height: 60,
+                )
               ],
             ),
           )),
     );
   }
 
-  Container MakeCont(BuildContext context,String img,String name,String Rollno) {
+  Container MakeCont(
+      BuildContext context, String img, String name, String Rollno) {
     return Container(
-                    margin: EdgeInsets.all(5),
-                    
-                    width: MediaQuery.of(context).size.width * 0.45,
-                    // width: MediaQuery.of(context).size.width * 0.45,
-                    height: MediaQuery.of(context).size.width * 0.48,
-                    child: Card(
-                     elevation: 10,
-  shadowColor: Colors.green,
-  shape: RoundedRectangleBorder(
-    borderRadius: BorderRadius.circular(12.0),
-  ),
-                      child: Column(
-                        // ignore: prefer_const_literals_to_create_immutables
-                        children: [
-                          Image.asset(img,
-                          height: 100,
-                          ),
-                          Text("Name : ${name}",style: TextStyle(fontWeight: FontWeight.bold),),
-                          Text("Roll No : ${Rollno}",style: TextStyle(fontWeight: FontWeight.bold),)
-                        ],
-                      ),
-                    ),
-                  );
+      margin: EdgeInsets.all(5),
+      padding: EdgeInsets.all(5),
+
+      width: MediaQuery.of(context).size.width * 0.46,
+      // width: MediaQuery.of(context).size.width * 0.45,
+      height: MediaQuery.of(context).size.width * 0.72,
+      child: Card(
+        elevation: 10,
+        shadowColor: Colors.green,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(12.0),
+        ),
+        child: Column(
+          // ignore: prefer_const_literals_to_create_immutables
+          children: [
+            // SizedBox(
+            //   height: 20,
+            // ),
+            Container(
+              width: MediaQuery.of(context).size.width,
+              child: Center(
+                child: Container(
+                  width: MediaQuery.of(context).size.width * 0.4,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(100),
+                  ),
+                  child: Image.asset(
+                    img,
+
+                    height: 170,
+                    // fit: BoxFit.fitWidth,
+                    // width: MediaQuery.of(context).size.width*0.,
+                  ),
+                ),
+              ),
+            ),
+            SizedBox(
+              height: 20,
+            ),
+            Text(
+              "Name : ${name}",
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12),
+            ),
+            Text(
+              "Roll No : ${Rollno}",
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }
