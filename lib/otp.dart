@@ -41,7 +41,7 @@ class _OtpState extends State<Otp> {
                   color: Colors.black,
                   shape: BoxShape.circle,
                 ),
-              //  child:    Text('Logo')
+                //  child:    Text('Logo')
               ),
               SizedBox(
                 height: 24,

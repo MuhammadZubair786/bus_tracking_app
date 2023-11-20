@@ -18,7 +18,7 @@ class MapSampleState extends State<MapSample> {
   final Completer<GoogleMapController> _controller =
       Completer<GoogleMapController>();
 
- @override
+  @override
   void initState() {
     super.initState();
     check_Loc();
@@ -31,8 +31,8 @@ class MapSampleState extends State<MapSample> {
     DatabaseReference userRef =
         FirebaseDatabase.instance.reference().child('Drivers');
 
-   await userRef.child(uid.toString()).once().then((DatabaseEvent value) {
-      print("map check"+value.snapshot.value.toString());
+    await userRef.child(uid.toString()).once().then((DatabaseEvent value) {
+      print("map check" + value.snapshot.value.toString());
       var data = value.snapshot.value;
       data as Map;
       print(data["Bus"]);
@@ -44,10 +44,8 @@ class MapSampleState extends State<MapSample> {
         //     position: LatLng(data["Bus"]["latitude"],data["Bus"]["longitude"]),
         //     infoWindow: InfoWindow(title: "My Current location 1")));
         //     setState(() {
-              
+
         //     });
-
-
       }
     });
   }
@@ -66,7 +64,6 @@ class MapSampleState extends State<MapSample> {
   // ignore: prefer_final_fields
   List<Marker> _markers = <Marker>[
     Marker(
-      
         markerId: MarkerId("1"),
         position: LatLng(27.9483339, 67.0536799),
         infoWindow: InfoWindow(title: "My Current location"))

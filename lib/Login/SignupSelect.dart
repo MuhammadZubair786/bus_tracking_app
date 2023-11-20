@@ -7,7 +7,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 
-
 class signUpScreen extends StatefulWidget {
   const signUpScreen({super.key});
 
@@ -23,14 +22,18 @@ class _signUpScreenState extends State<signUpScreen> {
     width = MediaQuery.of(context).size.width;
     width = MediaQuery.of(context).size.height;
     return Scaffold(
-       appBar: AppBar(
-        backgroundColor: Colors.white,
-        title: Text("SAU Bus Tracking System" ,style: TextStyle(fontSize: 22,
-              fontWeight: FontWeight.bold
-              ,color: Color.fromARGB(255, 6, 2, 233),),)),
+      appBar: AppBar(
+          backgroundColor: Colors.white,
+          title: Text(
+            "SAU Bus Tracking System",
+            style: TextStyle(
+              fontSize: 22,
+              fontWeight: FontWeight.bold,
+              color: Color.fromARGB(255, 6, 2, 233),
+            ),
+          )),
       body: SingleChildScrollView(
         child: Stack(
-          
           children: [
             Column(
               children: [
@@ -41,8 +44,9 @@ class _signUpScreenState extends State<signUpScreen> {
                       borderRadius: BorderRadius.only(
                           // bottomRight: Radius.circular(50)
                           )),
-                  child: Image.asset("images/img12.png",
-                  // fit: BoxFit.cover,
+                  child: Image.asset(
+                    "images/img12.png",
+                    // fit: BoxFit.cover,
                   ),
                 ),
                 Stack(children: [
@@ -55,7 +59,7 @@ class _signUpScreenState extends State<signUpScreen> {
                           borderRadius: BorderRadius.only(
                               topLeft: Radius.circular(50),
                               topRight: Radius.circular(50))),
-      
+
                       // child: Column(
                       //   mainAxisAlignment: MainAxisAlignment.center,
                       // children: [
@@ -71,26 +75,36 @@ class _signUpScreenState extends State<signUpScreen> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        SizedBox(height: 20,),
+                        SizedBox(
+                          height: 20,
+                        ),
                         Container(
                           width: MediaQuery.of(context).size.width * 0.80,
                           height: 40,
                           child: ElevatedButton(
                             style: ElevatedButton.styleFrom(
-                               primary: Color.fromARGB(255, 5, 45, 66),
+                                primary: Color.fromARGB(255, 5, 45, 66),
                                 shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(50),
-                              //border radius equal to or more than 50% of width
-                            )),
+                                  borderRadius: BorderRadius.circular(50),
+                                  //border radius equal to or more than 50% of width
+                                )),
                             onPressed: () {
-                              Navigator.push(context, MaterialPageRoute(builder: (context)=>BHDriverRegistrationScreen()));
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          BHDriverRegistrationScreen()));
                             },
                             child: Text("Sign Up as Driver"),
                           ),
                         ),
-                           SizedBox(height: 10,),
+                        SizedBox(
+                          height: 10,
+                        ),
                         Divider(),
-                           SizedBox(height: 10,),
+                        SizedBox(
+                          height: 10,
+                        ),
                         Container(
                           width: MediaQuery.of(context).size.width * 0.80,
                           height: 40,
@@ -100,16 +114,19 @@ class _signUpScreenState extends State<signUpScreen> {
                           ),
                           child: ElevatedButton(
                             onPressed: () {
-                              Navigator.push(context, MaterialPageRoute(builder: (context)=>BHRegistrationScreen()));
-      
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          BHRegistrationScreen()));
                             },
                             child: Text("Sign Up as Student"),
                             style: ElevatedButton.styleFrom(
-                               primary: Color(0xff140967).withOpacity(0.9),
+                                primary: Color(0xff140967).withOpacity(0.9),
                                 shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(50),
-                              //border radius equal to or more than 50% of width
-                            )),
+                                  borderRadius: BorderRadius.circular(50),
+                                  //border radius equal to or more than 50% of width
+                                )),
                           ),
                         )
                       ],

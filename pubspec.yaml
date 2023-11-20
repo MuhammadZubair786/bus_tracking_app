@@ -58,6 +58,9 @@ dependencies:
   geocoding: ^2.0.5
   flutter_datetime_picker: ^1.5.1
   flutter_launcher_icons: ^0.11.0
+  flutter_polyline_points: ^1.0.0
+  location: ^4.4.0
+  label_marker: ^1.0.1
 
 
 

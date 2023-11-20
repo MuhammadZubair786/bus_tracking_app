@@ -22,7 +22,6 @@ class BHSplashScreen extends StatefulWidget {
 
   @override
   BHSplashScreenState createState() => BHSplashScreenState();
-
 }
 
 class BHSplashScreenState extends State<BHSplashScreen> {
@@ -33,43 +32,35 @@ class BHSplashScreenState extends State<BHSplashScreen> {
   }
 
   init() async {
-
     final prefs = await SharedPreferences.getInstance();
     var check = prefs.getString("Login_User");
     print(check);
-    if(check=="Student"){
+    if (check == "Student") {
       Timer(Duration(seconds: 5), () {
-      
-      Navigator.push(context, MaterialPageRoute(builder: (context)=>BottomNavBar()));
-     
-    });
-    }
-    else if(check=="Driver"){
- Timer(Duration(seconds: 5), () {
-     
-      Navigator.push(context, MaterialPageRoute(builder: (context)=>Driver_Navigation()));
-     
-    });
-    }
-      else if(check=="Admin"){
- Timer(Duration(seconds: 5), () {
-     
-      Navigator.push(context, MaterialPageRoute(builder: (context)=>AdminHome()));
-     
-    });
-    }
-    else{
+        Navigator.pushReplacement(
+            context, MaterialPageRoute(builder: (context) => BottomNavBar()));
+      });
+    } else if (check == "Driver") {
+      Timer(Duration(seconds: 5), () {
+        Navigator.pushReplacement(context,
+            MaterialPageRoute(builder: (context) => Driver_Navigation()));
+      });
+    } else if (check == "Admin") {
+      Timer(Duration(seconds: 5), () {
+        Navigator.pushReplacement(
+            context, MaterialPageRoute(builder: (context) => AdminHome()));
+      });
+    } else {
       {
-      Timer(Duration(seconds: 5), () {
-      // finish(context);
-      Navigator.push(context, MaterialPageRoute(builder: (context)=>BHLoginScreen()));
-      // BHLoginScreen().launch(context);
-      // BHDashedBoardScreen().launch(context);
-    });
+        Timer(Duration(seconds: 5), () {
+          // finish(context);
+          Navigator.pushReplacement(context,
+              MaterialPageRoute(builder: (context) => BHLoginScreen()));
+          // BHLoginScreen().launch(context);
+          // BHDashedBoardScreen().launch(context);
+        });
+      }
     }
-    }
-    
-    
   }
 
   @override
@@ -97,13 +88,13 @@ class BHSplashScreenState extends State<BHSplashScreen> {
           // ignore: prefer_const_literals_to_create_immutables
           colors: [
             Color.fromARGB(255, 255, 255, 255),
-            Color.fromARGB(255, 255, 255, 255)          ],
+            Color.fromARGB(255, 255, 255, 255)
+          ],
         )),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment:CrossAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            
             Center(
               child: Image.asset(
                 'images/SAUTransport.png',

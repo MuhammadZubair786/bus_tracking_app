@@ -33,7 +33,7 @@ class NewRegistrationScreenState extends State<BHRegistrationScreen> {
   TextEditingController ContactNo = TextEditingController();
   TextEditingController fullNameCont = TextEditingController();
   TextEditingController YearCont = TextEditingController();
-  TextEditingController BatchCont= TextEditingController();
+  TextEditingController BatchCont = TextEditingController();
   TextEditingController bussinessemailCont = TextEditingController();
   TextEditingController bussinespasswordCont = TextEditingController();
   TextEditingController bussinessConfirmPas = TextEditingController();
@@ -64,9 +64,9 @@ class NewRegistrationScreenState extends State<BHRegistrationScreen> {
 
   String get BHBarCodeImg => "jskajdds";
 
-    final FirebaseAuth _auth = FirebaseAuth.instance;
+  final FirebaseAuth _auth = FirebaseAuth.instance;
 
-      DatabaseReference userRef =
+  DatabaseReference userRef =
       FirebaseDatabase.instance.reference().child('Students');
 
   @override
@@ -119,19 +119,23 @@ class NewRegistrationScreenState extends State<BHRegistrationScreen> {
   //   }
   // }
 
-
   std_regsister() async {
     var name = fullNameCont.text;
-    var email= emailCont.text;
-    var password=passwordCont.text;
-    var confirm= ConfirmPas.text;
-   
-    var year= YearCont.text;
-    var Contact=ContactNo.text;
+    var email = emailCont.text;
+    var password = passwordCont.text;
+    var confirm = ConfirmPas.text;
 
-    if(name.length>0 && email.length>0 && password.length>0 && confirm.length>0  && year.length>0 && Contact.length>0){
-      if(password!=confirm){
-         Fluttertoast.showToast(
+    var year = YearCont.text;
+    var Contact = ContactNo.text;
+
+    if (name.length > 0 &&
+        email.length > 0 &&
+        password.length > 0 &&
+        confirm.length > 0 &&
+        year.length > 0 &&
+        Contact.length > 0) {
+      if (password != confirm) {
+        Fluttertoast.showToast(
             msg: "Password Not Match",
             toastLength: Toast.LENGTH_SHORT,
             gravity: ToastGravity.BOTTOM,
@@ -139,77 +143,64 @@ class NewRegistrationScreenState extends State<BHRegistrationScreen> {
             backgroundColor: Color.fromARGB(255, 30, 6, 121),
             textColor: Colors.white,
             fontSize: 16.0);
-
-      }
-      else{
-        try{
+      } else {
+        try {
           UserCredential userCredential = await _auth
-            .createUserWithEmailAndPassword(email: email, password: password);
-        String User_Uid = userCredential.user!.uid;
-        print(userCredential.user);
+              .createUserWithEmailAndPassword(email: email, password: password);
+          String User_Uid = userCredential.user!.uid;
+          print(userCredential.user);
 
-        //  String User_Uid = userCredential.user!.uid;
-        print(userCredential.user);
+          //  String User_Uid = userCredential.user!.uid;
+          print(userCredential.user);
 
-         var obj = {
-          "email": email,
-          "username": name,
-          "password": password,
-          "userUid": User_Uid,
-         
-          "Year": year,
-          "Phone_Number":Contact, 
-          "Role":"Student"
-          
-        };
-         await userRef.child(User_Uid).set(obj);
+          var obj = {
+            "email": email,
+            "username": name,
+            "password": password,
+            "userUid": User_Uid,
+            "Year": year,
+            "Phone_Number": Contact,
+            "Role": "Student"
+          };
+          await userRef.child(User_Uid).set(obj);
 
           Fluttertoast.showToast(
-            msg: "Student Regsister",
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.BOTTOM,
-            timeInSecForIosWeb: 1,
-            backgroundColor: Color.fromARGB(255, 30, 6, 121),
-            textColor: Colors.white,
-            fontSize: 16.0);
+              msg: "Student Regsister",
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.BOTTOM,
+              timeInSecForIosWeb: 1,
+              backgroundColor: Color.fromARGB(255, 30, 6, 121),
+              textColor: Colors.white,
+              fontSize: 16.0);
 
-      // ignore: use_build_context_synchronously
-      Navigator.push(context, MaterialPageRoute(builder: (context)=>
-        BHLoginScreen()
-      ));
-
-        }
-        catch(e){
+          // ignore: use_build_context_synchronously
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => BHLoginScreen()));
+        } catch (e) {
           Fluttertoast.showToast(
-            msg: e.toString(),
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.BOTTOM,
-            timeInSecForIosWeb: 1,
-            backgroundColor: Color.fromARGB(255, 30, 6, 121),
-            textColor: Colors.white,
-            fontSize: 16.0);
-
+              msg: e.toString(),
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.BOTTOM,
+              timeInSecForIosWeb: 1,
+              backgroundColor: Color.fromARGB(255, 30, 6, 121),
+              textColor: Colors.white,
+              fontSize: 16.0);
         }
       }
+    } else {
+      Fluttertoast.showToast(
+          msg: "Enter All Data",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Color.fromARGB(255, 30, 6, 121),
+          textColor: Colors.white,
+          fontSize: 16.0);
     }
-    else{
-       Fluttertoast.showToast(
-            msg: "Enter All Data",
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.BOTTOM,
-            timeInSecForIosWeb: 1,
-            backgroundColor: Color.fromARGB(255, 30, 6, 121),
-            textColor: Colors.white,
-            fontSize: 16.0);
-    }
-     
   }
-
-  
 
   @override
   Widget build(BuildContext context) {
-
     return SafeArea(
         child: Scaffold(
             body: SingleChildScrollView(
@@ -223,7 +214,7 @@ class NewRegistrationScreenState extends State<BHRegistrationScreen> {
                 // top: 50,
                 // left: MediaQuery.of(context).size.width * 0.35,
                 // right: MediaQuery.of(context).size.width * 0.32
-                
+
                 ),
             color: Color.fromARGB(255, 224, 223, 223),
             // width: 100.0,
@@ -238,33 +229,46 @@ class NewRegistrationScreenState extends State<BHRegistrationScreen> {
             width: MediaQuery.of(context).size.width,
             padding: const EdgeInsets.all(16),
             decoration: const BoxDecoration(
-              borderRadius: BorderRadius.only(
-                  topRight: Radius.circular(50), topLeft: Radius.circular(50)),
-              color: Color.fromARGB(255, 252, 251, 251)
-            ),
+                borderRadius: BorderRadius.only(
+                    topRight: Radius.circular(50),
+                    topLeft: Radius.circular(50)),
+                color: Color.fromARGB(255, 252, 251, 251)),
             child: SingleChildScrollView(
               child: Column(
                 children: <Widget>[
-                  SizedBox(height: 10,),
-                  SingleChildScrollView       (
+                  SizedBox(
+                    height: 10,
+                  ),
+                  SingleChildScrollView(
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Center(child: Text("Student Register ",style: TextStyle(   color: Color(0xff140967),fontSize: 25,fontWeight: FontWeight.bold),)),
-                        SizedBox(height: 10,),
+                        Center(
+                            child: Text(
+                          "Student Register ",
+                          style: TextStyle(
+                              color: Color(0xff140967),
+                              fontSize: 25,
+                              fontWeight: FontWeight.bold),
+                        )),
+                        SizedBox(
+                          height: 10,
+                        ),
                         TextFormField(
-                          controller:fullNameCont,
+                          controller: fullNameCont,
                           // focusNode: fullNameFocusNode,
                           keyboardType: TextInputType.text,
                           textInputAction: TextInputAction.next,
                           onFieldSubmitted: (value) {
-                            FocusScope.of(context).requestFocus(passwordFocusNode);
+                            FocusScope.of(context)
+                                .requestFocus(passwordFocusNode);
                           },
                           style: primaryTextStyle(),
                           decoration: InputDecoration(
                             enabledBorder: const UnderlineInputBorder(
-                                borderSide: BorderSide(color: BHAppDividerColor)),
+                                borderSide:
+                                    BorderSide(color: BHAppDividerColor)),
                             focusedBorder: const UnderlineInputBorder(
                                 borderSide: BorderSide(color: BHColorPrimary)),
                             labelText: "User Name",
@@ -276,12 +280,12 @@ class NewRegistrationScreenState extends State<BHRegistrationScreen> {
                               //   });
                               // },
                               child: const Icon(Icons.person_add,
-                                     color: Color(0xff140967), size: 20),
+                                  color: Color(0xff140967), size: 20),
                             ),
                           ),
                         ),
                         TextFormField(
-                          controller:YearCont,
+                          controller: YearCont,
                           // focusNode: emailFocusNode,
                           keyboardType: TextInputType.emailAddress,
                           textInputAction: TextInputAction.next,
@@ -291,16 +295,19 @@ class NewRegistrationScreenState extends State<BHRegistrationScreen> {
                           style: primaryTextStyle(),
                           decoration: InputDecoration(
                             enabledBorder: const UnderlineInputBorder(
-                                borderSide: BorderSide(color: BHAppDividerColor)),
+                                borderSide:
+                                    BorderSide(color: BHAppDividerColor)),
                             focusedBorder: const UnderlineInputBorder(
                                 borderSide: BorderSide(color: BHColorPrimary)),
                             labelText: "Reg No : ",
                             labelStyle: secondaryTextStyle(),
-                            suffixIcon: const Icon(Icons.app_registration_outlined,
-                                   color: Color(0xff140967), size: 18),
+                            suffixIcon: const Icon(
+                                Icons.app_registration_outlined,
+                                color: Color(0xff140967),
+                                size: 18),
                           ),
                         ),
-                       
+
                         TextFormField(
                           controller: ContactNo,
                           // focusNode: addressFocusNode,
@@ -310,27 +317,30 @@ class NewRegistrationScreenState extends State<BHRegistrationScreen> {
                           style: primaryTextStyle(),
                           decoration: InputDecoration(
                             enabledBorder: const UnderlineInputBorder(
-                                borderSide: BorderSide(color: BHAppDividerColor)),
+                                borderSide:
+                                    BorderSide(color: BHAppDividerColor)),
                             focusedBorder: const UnderlineInputBorder(
                                 borderSide: BorderSide(color: BHColorPrimary)),
                             labelText: "Phone Number",
                             suffixIcon: const Icon(Icons.phone,
-                                   color: Color(0xff140967), size: 18),
+                                color: Color(0xff140967), size: 18),
                             labelStyle: secondaryTextStyle(),
                           ),
                         ),
-                         TextFormField(
+                        TextFormField(
                           controller: emailCont,
                           // focusNode: fullNameFocusNode,
                           keyboardType: TextInputType.text,
                           textInputAction: TextInputAction.next,
                           onFieldSubmitted: (value) {
-                            FocusScope.of(context).requestFocus(passwordFocusNode);
+                            FocusScope.of(context)
+                                .requestFocus(passwordFocusNode);
                           },
                           style: primaryTextStyle(),
                           decoration: InputDecoration(
                             enabledBorder: const UnderlineInputBorder(
-                                borderSide: BorderSide(color: BHAppDividerColor)),
+                                borderSide:
+                                    BorderSide(color: BHAppDividerColor)),
                             focusedBorder: const UnderlineInputBorder(
                                 borderSide: BorderSide(color: BHColorPrimary)),
                             labelText: "Email",
@@ -342,7 +352,7 @@ class NewRegistrationScreenState extends State<BHRegistrationScreen> {
                                 });
                               },
                               child: const Icon(Icons.email,
-                                     color: Color(0xff140967), size: 20),
+                                  color: Color(0xff140967), size: 20),
                             ),
                           ),
                         ),
@@ -365,11 +375,12 @@ class NewRegistrationScreenState extends State<BHRegistrationScreen> {
                                   _showPassword
                                       ? Icons.visibility
                                       : Icons.visibility_off,
-                                     color: Color(0xff140967),
+                                  color: Color(0xff140967),
                                   size: 20),
                             ),
                             enabledBorder: const UnderlineInputBorder(
-                                borderSide: BorderSide(color: BHAppDividerColor)),
+                                borderSide:
+                                    BorderSide(color: BHAppDividerColor)),
                             focusedBorder: const UnderlineInputBorder(
                                 borderSide: BorderSide(color: BHColorPrimary)),
                           ),
@@ -393,16 +404,17 @@ class NewRegistrationScreenState extends State<BHRegistrationScreen> {
                                   _showPassword
                                       ? Icons.visibility
                                       : Icons.visibility_off,
-                                     color: Color(0xff140967),
+                                  color: Color(0xff140967),
                                   size: 20),
                             ),
                             enabledBorder: const UnderlineInputBorder(
-                                borderSide: BorderSide(color: BHAppDividerColor)),
+                                borderSide:
+                                    BorderSide(color: BHAppDividerColor)),
                             focusedBorder: const UnderlineInputBorder(
                                 borderSide: BorderSide(color: BHColorPrimary)),
                           ),
                         ),
-                         
+
                         // TextFormField(
                         //   controller:BatchCont,
                         //   // focusNode: emailFocusNode,
@@ -454,11 +466,12 @@ class NewRegistrationScreenState extends State<BHRegistrationScreen> {
                         //     labelStyle: secondaryTextStyle(),
                         //   ),
                         // ),
-                        
                       ],
                     ),
                   ),
-                  SizedBox(height: 20,),
+                  SizedBox(
+                    height: 20,
+                  ),
                   SizedBox(
                     width: MediaQuery.of(context).size.width,
                     child: ElevatedButton(
@@ -480,15 +493,17 @@ class NewRegistrationScreenState extends State<BHRegistrationScreen> {
                       ),
                     ),
                   ),
-                 
+
                   12.height,
                   // 24.height,
                   Align(
                     alignment: Alignment.bottomCenter,
                     child: GestureDetector(
                       onTap: () {
-                        
-                        Navigator.push(context, MaterialPageRoute(builder: (context)=>BHLoginScreen()));
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => BHLoginScreen()));
                       },
                       child: const Text.rich(
                         TextSpan(
@@ -497,7 +512,9 @@ class NewRegistrationScreenState extends State<BHRegistrationScreen> {
                           children: <TextSpan>[
                             TextSpan(
                                 text: BHBtnSignIn,
-                                style: TextStyle( color: Color(0xff140967),))
+                                style: TextStyle(
+                                  color: Color(0xff140967),
+                                ))
                           ],
                         ),
                       ),
@@ -568,5 +585,4 @@ class NewRegistrationScreenState extends State<BHRegistrationScreen> {
 
 // // var data = jsonDecode(response.body);
 //   }
-
 }
